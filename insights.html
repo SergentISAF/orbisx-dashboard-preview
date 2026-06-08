@@ -1,0 +1,107 @@
+<!doctype html><html lang="da"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Analyse | Orbis</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand"><span class="ring"></span><b>Orbis</b></div>
+  <nav class="nav">
+    <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>Overblik</a>
+    <a class="active" href="insights.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Analyse</a>
+    <a href="comm.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Rapporter</a>
+    <a href="news.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>Nyheder</a>
+  </nav>
+  <div class="side-foot"><div class="lang">🇩🇰 Dansk</div><div class="me"><span class="av">D</span>danholmstad@gmail.com</div></div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="crumb">Overblik / <b>Analyse</b></div>
+    <div class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input placeholder="Søg i dine emner og medier"></div>
+    <div class="bell"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg><span class="dot"></span></div>
+  </div>
+
+  <div class="content">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div class="h-eyebrow">Analyse</div>
+        <h1 class="page-title">Hvor meget bliver der skrevet?</h1>
+        <p class="page-sub">Følg mængden af omtale over tid, og se hvilke medier og historier der driver den.</p>
+      </div>
+      <div style="display:flex;gap:10px">
+        <a class="btn btn-ghost" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>Eksportér</a>
+        <a class="btn btn-primary" href="comm.html">Gem som rapport</a>
+      </div>
+    </div>
+
+    <!-- Compact filter bar -->
+    <div class="filterbar mt16">
+      <div class="field"><label>Emne</label><div class="ctrl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>Nova nordisk vs Lego<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><path d="M6 9l6 6 6-6"/></svg></div></div>
+      <div class="field"><label>Sammenlign med</label><div class="ctrl">Branchegennemsnit<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><path d="M6 9l6 6 6-6"/></svg></div></div>
+      <div class="field"><label>Medier</label><div class="ctrl">Alle danske medier<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><path d="M6 9l6 6 6-6"/></svg></div></div>
+      <div class="field"><label>Periode</label>
+        <div class="seg"><button>7 dage</button><button class="on">30 dage</button><button>3 mdr.</button></div>
+      </div>
+    </div>
+
+    <!-- KPI cards with meaning -->
+    <div class="kpis mt16" style="margin-top:18px">
+      <div class="kpi"><div class="ico blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h6"/></svg></div>
+        <div class="label">Artikler i alt</div><div class="val">1.284</div><div class="sub"><span class="delta up">▲ 18%</span> over branchesnit</div></div>
+      <div class="kpi"><div class="ico sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/></svg></div>
+        <div class="label">Medier der dækker</div><div class="val">96</div><div class="sub">DR, TV2, Børsen m.fl.</div></div>
+      <div class="kpi"><div class="ico amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+        <div class="label">Samlede historier</div><div class="val">213</div><div class="sub">artikler grupperet i sagsforløb</div></div>
+      <div class="kpi"><div class="ico green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div class="label">Anslået rækkevidde</div><div class="val">8,9 mio.</div><div class="sub"><span class="delta up">▲ 8%</span> visninger</div></div>
+    </div>
+
+    <!-- Chart -->
+    <div class="card chart-card mt16" style="margin-top:18px">
+      <div class="chart-head">
+        <div><h2 style="font-size:16px;font-weight:700">Omtale over tid</h2><p class="muted" style="font-size:13px">Dit emne vist mod branchegennemsnittet</p></div>
+        <div class="legend"><span><i style="background:#2563eb"></i>Nova nordisk vs Lego</span><span><i style="background:#cbd5e1"></i>Branchesnit</span></div>
+      </div>
+      <svg width="100%" height="260" viewBox="0 0 900 260" preserveAspectRatio="none" style="margin-top:8px">
+        <g stroke="#eef1f6" stroke-width="1">
+          <line x1="0" y1="40" x2="900" y2="40"/><line x1="0" y1="100" x2="900" y2="100"/><line x1="0" y1="160" x2="900" y2="160"/><line x1="0" y1="220" x2="900" y2="220"/>
+        </g>
+        <polyline fill="rgba(37,99,235,.10)" stroke="none" points="0,180 90,170 180,150 270,160 360,120 450,130 540,90 630,110 720,70 810,95 900,55 900,240 0,240"/>
+        <polyline fill="none" stroke="#2563eb" stroke-width="3" points="0,180 90,170 180,150 270,160 360,120 450,130 540,90 630,110 720,70 810,95 900,55"/>
+        <polyline fill="none" stroke="#cbd5e1" stroke-width="2.5" stroke-dasharray="5 5" points="0,200 90,195 180,198 270,190 360,185 450,188 540,180 630,182 720,176 810,180 900,172"/>
+      </svg>
+      <div style="display:flex;justify-content:space-between;color:var(--faint);font-size:12px;margin-top:6px">
+        <span>1. maj</span><span>8. maj</span><span>15. maj</span><span>22. maj</span><span>29. maj</span></div>
+    </div>
+
+    <div class="two-col mt16" style="margin-top:18px">
+      <!-- Top media -->
+      <div class="card" style="padding:18px 20px">
+        <h2 style="font-size:16px;font-weight:700;margin-bottom:2px">Medier der skriver mest</h2>
+        <p class="muted" style="font-size:13px;margin-bottom:14px">Hvor din omtale kommer fra</p>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div><div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:5px"><b>DR Nyheder</b><span class="muted">241 artikler</span></div><div style="height:8px;background:#eef1f6;border-radius:6px"><div style="width:88%;height:100%;background:#2563eb;border-radius:6px"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:5px"><b>TV2</b><span class="muted">198 artikler</span></div><div style="height:8px;background:#eef1f6;border-radius:6px"><div style="width:72%;height:100%;background:#2563eb;border-radius:6px"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:5px"><b>Børsen</b><span class="muted">156 artikler</span></div><div style="height:8px;background:#eef1f6;border-radius:6px"><div style="width:57%;height:100%;background:#2563eb;border-radius:6px"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:5px"><b>Berlingske</b><span class="muted">112 artikler</span></div><div style="height:8px;background:#eef1f6;border-radius:6px"><div style="width:41%;height:100%;background:#2563eb;border-radius:6px"></div></div></div>
+        </div>
+      </div>
+      <!-- Tone -->
+      <div class="card" style="padding:18px 20px">
+        <h2 style="font-size:16px;font-weight:700;margin-bottom:2px">Tone i omtalen</h2>
+        <p class="muted" style="font-size:13px;margin-bottom:16px">Hvordan medierne omtaler emnet</p>
+        <div style="display:flex;height:14px;border-radius:8px;overflow:hidden;margin-bottom:16px">
+          <div style="width:62%;background:#16a34a"></div><div style="width:28%;background:#cbd5e1"></div><div style="width:10%;background:#dc2626"></div></div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:13.5px">
+          <div style="display:flex;justify-content:space-between"><span><span class="dot green"></span> Positiv</span><b>62%</b></div>
+          <div style="display:flex;justify-content:space-between"><span><span class="dot" style="background:#cbd5e1"></span> Neutral</span><b>28%</b></div>
+          <div style="display:flex;justify-content:space-between"><span><span class="dot red"></span> Negativ</span><b>10%</b></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body></html>
