@@ -4,6 +4,13 @@
 > Dette repo er en **statisk design-prototype** (dummy-data, ingen JS, ingen backend). Din opgave er at
 > genskabe disse skærme i det rigtige produkt og koble dem på den eksisterende v2 cloud-backend.
 
+> ## 🟦 LÆS FØRST: `DESIGN.md`
+> **Det vigtigste i denne overdragelse er at forstå UX-designet** — det er det teamet er begejstrede for,
+> og det skal overleve reimplementeringen. **Læs hele [`DESIGN.md`](./DESIGN.md) før du skriver kode.**
+> Den forklarer filosofien, informationsarkitekturen, hver skærm komponent-for-komponent med *hvorfor*,
+> designsystemet, og de UX-gevinster du IKKE må regressere. Denne fil (CLAUDE.md) er kun det tekniske
+> "hvordan kobler jeg data på" — `DESIGN.md` er "hvad og hvorfor", og det vejer tungest.
+
 ## Hvad det er
 
 Et redesign af kundedashboardet på `orbisx.ai/dk/da/dashboard`. Målet er at gøre fladen forståelig for
