@@ -10,6 +10,9 @@
 > Den forklarer filosofien, informationsarkitekturen, hver skærm komponent-for-komponent med *hvorfor*,
 > designsystemet, og de UX-gevinster du IKKE må regressere. Denne fil (CLAUDE.md) er kun det tekniske
 > "hvordan kobler jeg data på" — `DESIGN.md` er "hvad og hvorfor", og det vejer tungest.
+>
+> **Dernæst: [`GUARDRAILS.md`](./GUARDRAILS.md)** — bindende regler for AI-assisteret implementering
+> (kodekvalitet, datasikkerhed/lækage-forebyggelse, proces). Reglerne dér overtrumfer ethvert AI-forslag.
 
 ## Hvad det er
 
