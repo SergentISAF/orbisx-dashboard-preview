@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSV A/S nyheder – 123 danske medieomtaler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#020617; --blue:#2563eb; --sky:#60a5fa;
+  --green:#16a34a; --amber:#d97706; --red:#dc2626;
+  --bg:#f6f7fb; --card:#fff; --ink:#0f172a; --muted:#64748b; --line:#e2e8f0;
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5}
+a{color:var(--blue);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* topbar */
+.topbar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.topbar .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:17px}
+.logo .ring{width:22px;height:22px;border-radius:50%;border:3px solid var(--sky);border-top-color:var(--navy)}
+.topnote{color:var(--muted);font-size:13.5px;flex:1;text-align:center}
+.btn{display:inline-block;border-radius:10px;padding:9px 16px;font-weight:600;font-size:14px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 1px 2px rgba(37,99,235,.3)}
+.btn.primary:hover{background:#1d4ed8}
+
+/* hero */
+.hero{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 32px;margin-top:24px;box-shadow:0 1px 3px rgba(2,6,23,.05)}
+.hero h1{font-size:26px;font-weight:800;letter-spacing:-.02em}
+.hero .sub{display:flex;align-items:center;gap:10px;margin-top:6px;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#f8fafc;border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:600;color:#475569}
+.hero .lead{margin-top:14px;font-size:15.5px;color:var(--ink)}
+.hero .lead b{font-weight:700}
+.hero .lead .ctx{color:var(--muted);font-weight:400}
+
+/* period toggle */
+.toggle{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px;margin:20px 0 0;gap:2px}
+.toggle button{border:0;background:transparent;border-radius:9px;padding:7px 16px;font:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.toggle button.on{background:var(--navy);color:#fff}
+
+/* KPI row */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 1px 3px rgba(2,6,23,.05);transition:transform .15s, box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(2,6,23,.08)}
+.kpi .label{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.kpi .num{font-size:30px;font-weight:800;margin-top:6px;letter-spacing:-.02em}
+.kpi .ctx{font-size:13px;color:var(--muted);margin-top:4px}
+.kpi .ctx .down{color:var(--muted);font-weight:600}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:1px}
+.dot.g{background:var(--green)}.dot.a{background:var(--amber)}.dot.r{background:var(--red)}
+.tonebar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin-top:12px}
+.tonebar i{display:block;height:100%}
+.tonelegend{display:flex;gap:12px;margin-top:10px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+.kpi .story{font-size:14px;font-weight:600;line-height:1.35;margin-top:8px}
+.kpi .story-meta{font-size:12.5px;color:var(--muted);margin-top:6px}
+
+/* CTA strip */
+.cta-strip{display:flex;align-items:center;gap:16px;background:#eef4ff;border:1px solid #dbe7ff;border-radius:var(--radius);padding:18px 24px;margin-top:20px}
+.cta-strip .txt{flex:1}
+.cta-strip b{font-size:15.5px}
+.cta-strip .small{color:var(--muted);font-size:13px;margin-top:2px}
+
+/* chart */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-top:20px;box-shadow:0 1px 3px rgba(2,6,23,.05)}
+.panel h2{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.panel .panelsub{color:var(--muted);font-size:13.5px;margin-top:3px}
+.chart{display:flex;align-items:flex-end;gap:14px;height:180px;margin-top:24px;padding-bottom:6px;border-bottom:1px solid var(--line);position:relative}
+.chart .avg{position:absolute;left:0;right:0;bottom:calc(6px + 64px);border-top:2px dashed #cbd5e1}
+.chart .avg span{position:absolute;right:0;top:-20px;font-size:11.5px;color:var(--muted);background:#fff;padding:0 4px}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%}
+.bar i{display:block;width:70%;max-width:54px;background:var(--blue);border-radius:6px 6px 2px 2px}
+.bar.zero i{height:3px;background:#cbd5e1;border-radius:2px}
+.bar .v{font-size:12px;font-weight:700;color:var(--ink)}
+.bar.zero .v{color:var(--muted);font-weight:500}
+.xlab{display:flex;gap:14px;margin-top:8px}
+.xlab span{flex:1;text-align:center;font-size:12px;color:var(--muted)}
+.filters{display:flex;gap:8px;margin-top:18px}
+.fpill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 14px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}
+.fpill.on{background:var(--navy);border-color:var(--navy);color:#fff}
+
+/* two-col: quotes + compare */
+.cols{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start;margin-top:20px}
+
+/* quotes */
+.quote{border:1px solid var(--line);border-left:4px solid var(--green);border-radius:12px;padding:16px 18px;margin-top:14px;position:relative}
+.quote .qt{filter:blur(5px);user-select:none;color:#334155;font-size:14.5px}
+.quote .src{margin-top:10px;font-size:12.5px;color:var(--muted);filter:blur(4px);user-select:none}
+.gate{border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 12px 32px rgba(2,6,23,.12);padding:24px;max-width:420px;margin:-150px auto 10px;position:relative;text-align:center}
+.gate .lock{width:38px;height:38px;border-radius:50%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:16px}
+.gate h3{font-size:15.5px;font-weight:700}
+.gate p{font-size:13px;color:var(--muted);margin-top:8px}
+.gate .btn{width:100%;margin-top:12px}
+.gate .btn.dark{background:var(--navy);color:#fff;border-color:var(--navy)}
+.exlabel{position:absolute;top:10px;right:12px}
+.badge-ex{background:#fef3c7;border:1px solid #fde68a;color:#92400e;border-radius:999px;font-size:11.5px;font-weight:700;padding:2px 9px}
+
+/* compare panel */
+.compare .row{padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.compare .row:last-child{border-bottom:0}
+.compare .row b{display:block;font-weight:600;color:var(--ink)}
+.compare .row .sub{display:flex;align-items:center;gap:10px;margin-top:4px}
+.compare .n{font-size:12.5px;color:var(--muted);background:#f1f5f9;border-radius:999px;padding:2px 9px;font-weight:600;white-space:nowrap}
+.compare a{font-size:12.5px;white-space:nowrap}
+
+/* articles */
+.art{display:flex;flex-direction:column;gap:6px;padding:16px 0;border-bottom:1px solid var(--line)}
+.art:last-of-type{border-bottom:0}
+.art h3{font-size:15.5px;font-weight:600;line-height:1.4}
+.art .meta{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.tone{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700}
+.tone.neg{background:#fef2f2;color:var(--red)}
+.tone.pos{background:#f0fdf4;color:var(--green)}
+.tone.neu{background:#fffbeb;color:var(--amber)}
+.tone .dot{margin-right:0}
+.mention{background:#eff6ff;border:1px solid #dbeafe;color:var(--blue);border-radius:999px;font-size:11.5px;font-weight:700;padding:2px 9px}
+.blurbox{position:relative;margin-top:16px;border-radius:12px;overflow:hidden}
+.blurbox .fake{filter:blur(5px);user-select:none;padding:6px 4px;opacity:.8}
+.blurbox .overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:linear-gradient(180deg,rgba(246,247,251,.2),rgba(246,247,251,.95));text-align:center;padding:20px}
+.blurbox .overlay b{font-size:14.5px}
+.blurbox .overlay p{font-size:13px;color:var(--muted);max-width:420px}
+
+/* footer cta */
+.footcta{display:flex;align-items:center;gap:16px;background:var(--navy);color:#fff;border-radius:var(--radius);padding:22px 28px;margin:24px 0 48px}
+.footcta .txt{flex:1}
+.footcta b{font-size:16px}
+.footcta .small{color:#94a3b8;font-size:13px;margin-top:2px}
+
+/* annotations */
+.annot-toggle{position:fixed;bottom:18px;right:18px;z-index:100;background:#fff;border:1px solid var(--line);border-radius:999px;box-shadow:0 4px 14px rgba(2,6,23,.15);padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;gap:8px;align-items:center}
+.an{display:none;position:absolute;background:#7c3aed;color:#fff;font-size:11px;font-weight:800;width:20px;height:20px;border-radius:50%;align-items:center;justify-content:center;cursor:help;z-index:40;box-shadow:0 2px 6px rgba(124,58,237,.4)}
+body.show-an .an{display:flex}
+.an:hover::after{content:attr(data-note);position:absolute;bottom:26px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-size:12px;font-weight:500;line-height:1.45;padding:10px 12px;border-radius:10px;width:280px;z-index:60;box-shadow:0 8px 24px rgba(2,6,23,.3)}
+.relpos{position:relative}
+
+@media (max-width:900px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .cols{grid-template-columns:1fr}
+  .topnote{display:none}
+}
+@media (max-width:560px){
+  .kpis{grid-template-columns:1fr}
+  .cta-strip,.footcta{flex-direction:column;align-items:flex-start}
+  .topbar .wrap{height:auto;padding-top:10px;padding-bottom:10px;flex-wrap:wrap;justify-content:space-between}
+  .topbar .btn:not(.primary){display:none}
+  .topbar .pill{display:none}
+  .topbar .btn.primary{padding:8px 12px;font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="logo"><span class="ring"></span> Orbis</div>
+    <div class="topnote relpos">Du ser rigtige dækningsdata for DSV A/S. Følg din egen virksomhed på 2 minutter.
+      <span class="an" style="top:-6px;right:-26px" data-note="Fix 5 (P2): 'Opsæt din egen agent' → 'Følg din egen virksomhed'. Ingen agent-jargon i UI (DESIGN.md §8).">5</span>
+    </div>
+    <span class="pill">🇩🇰 DA</span>
+    <button class="btn">Log på</button>
+    <button class="btn primary">Overvåg min virksomhed gratis</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- hero -->
+  <div class="hero relpos">
+    <h1>DSV A/S</h1>
+    <div class="sub">Nyhedsovervågning for DSV A/S <span class="pill">🇩🇰 Danske medier</span></div>
+    <div class="lead relpos">
+      <b>12 omtaler de sidste 7 dage</b> <span class="ctx">· 3 færre end ugen før · 123 omtaler de seneste 30 dage</span>
+      <span class="an" style="top:-4px;left:-28px" data-note="Fix 2+3 (P1): Rød '↓ Dækningen faldt 20%' erstattet af neutralt absolut tal med kontekst. 30-dages totalen (123) vises, så title-tagget ikke modsiger siden.">2</span>
+    </div>
+  </div>
+
+  <div class="toggle">
+    <button class="on">7 dage</button><button>30 dage</button><button>3 måneder</button>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpis relpos">
+    <span class="an" style="top:-10px;left:-10px" data-note="Fix 9 (P2): Alle 4 KPI'er handler nu om kunden selv. Konkurrent-kortene ('Forventede visninger / Nævnt sammen med') er flyttet til sekundært panel nederst.">9</span>
+    <div class="card kpi">
+      <div class="label">Omtaler</div>
+      <div class="num">12</div>
+      <div class="ctx"><span class="down">▼ 3</span> mod ugen før (15)</div>
+    </div>
+    <div class="card kpi">
+      <div class="label">Medier der dækker</div>
+      <div class="num">7</div>
+      <div class="ctx">Finans, Mobility Watch, Børsen m.fl.</div>
+    </div>
+    <div class="card kpi relpos">
+      <div class="label">Er omtalen positiv?</div>
+      <div class="tonebar">
+        <i style="width:33%;background:var(--green)"></i><i style="width:50%;background:var(--amber)"></i><i style="width:17%;background:var(--red)"></i>
+      </div>
+      <div class="tonelegend">
+        <span><span class="dot g"></span>Positiv 33%</span>
+        <span><span class="dot a"></span>Neutral 50%</span>
+        <span><span class="dot r"></span>Negativ 17%</span>
+      </div>
+      <span class="an" style="top:-8px;right:-8px" data-note="Fix 7 (P2): Én konsistent tone-model overalt — prik + ord, tre niveauer (grøn/orange/rød). Erstatter '50% positiv eller afbalanceret'. Overskrift som spørgsmål.">7</span>
+    </div>
+    <div class="card kpi">
+      <div class="label">Største historie</div>
+      <div class="story">DSV's Neom-eventyr mister mere fart efter nye saudiske nedskæringer</div>
+      <div class="story-meta"><span class="dot r"></span>Negativ · Mobility Watch · 2 d. siden</div>
+    </div>
+  </div>
+
+  <!-- CTA strip (unchanged pattern, kept) -->
+  <div class="cta-strip">
+    <div class="txt">
+      <b>Vil du se dette for din egen virksomhed?</b>
+      <div class="small">2 min · Intet kreditkort · 30 dages historik med det samme</div>
+    </div>
+    <button class="btn primary">Overvåg min virksomhed gratis</button>
+  </div>
+
+  <!-- chart -->
+  <div class="panel relpos">
+    <h2>Hvor meget bliver der skrevet om DSV?</h2>
+    <div class="panelsub">Daglige omtaler i danske medier, seneste 7 dage — sammenlignet med gennemsnittet for C25-selskaber</div>
+    <span class="an" style="top:14px;right:14px" data-note="Fix 6+10 (P2): 'Omtale tendenser' → spørgsmåls-overskrift. Alle 7 dage vises (0-dage som flad markør i stedet for at mangle), og stiplet branchegennemsnit giver tallene kontekst.">6</span>
+    <div class="chart">
+      <div class="avg"><span>C25-gennemsnit</span></div>
+      <div class="bar"><span class="v">2</span><i style="height:32%"></i></div>
+      <div class="bar zero"><span class="v">0</span><i></i></div>
+      <div class="bar"><span class="v">2</span><i style="height:32%"></i></div>
+      <div class="bar"><span class="v">2</span><i style="height:32%"></i></div>
+      <div class="bar"><span class="v">2</span><i style="height:32%"></i></div>
+      <div class="bar zero"><span class="v">0</span><i></i></div>
+      <div class="bar"><span class="v">4</span><i style="height:64%"></i></div>
+    </div>
+    <div class="xlab">
+      <span>3/6</span><span>4/6</span><span>5/6</span><span>6/6</span><span>7/6</span><span>8/6</span><span>9/6</span>
+    </div>
+    <div class="filters relpos">
+      <span class="fpill on">Alle</span>
+      <span class="fpill"><span class="dot g"></span>Positiv</span>
+      <span class="fpill"><span class="dot a"></span>Neutral</span>
+      <span class="fpill"><span class="dot r"></span>Negativ</span>
+      <span class="an" style="top:-6px;right:-26px" data-note="Fix 7 (P2): Neutral-filter tilføjet, så filteret matcher tone-modellen alle andre steder.">7</span>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div>
+      <!-- quotes -->
+      <div class="panel relpos" style="margin-top:0">
+        <span class="exlabel badge-ex">Eksempel — frigives efter verificering</span>
+        <h2>Citater I må genbruge (§22)</h2>
+        <div class="panelsub">Uddrag fra artikler hvor DSV er nævnt — lovlige at dele med korrekt kildeangivelse jf. ophavsretslovens §22</div>
+        <span class="an" style="top:14px;left:-10px" data-note="Fix 4 (P1): Dummy-citaterne er nu tydeligt mærket 'Eksempel' i stedet for at stå umarkeret under 'Du ser rigtige dækningsdata'-banneret. Blur + verificerings-gate er bevaret.">4</span>
+        <div class="quote"><div class="qt">Selskabet har ifølge direktøren opnået en markant vækst i det seneste kvartal, drevet af stærk efterspørgsel fra både eksisterende og nye kunder.</div><div class="src">Børsen · Virksomheden styrker sin position på markedet</div></div>
+        <div class="quote"><div class="qt">"Vi er meget tilfredse med udviklingen," udtaler CEO'en, og tilføjer at virksomheden forventer fortsat ekspansion på tre kernemarkeder.</div><div class="src">Finans · Ny strategi skal sikre fremtidig vækst</div></div>
+        <div class="quote" style="border-left-color:var(--amber)"><div class="qt">Virksomheden nævnes som en af de centrale aktører i sektoren. Analytikere peger på øget konkurrence som en potentiel udfordring fremadrettet.</div><div class="src">Berlingske Business · Brancheanalyse: Konkurrencen skærpes</div></div>
+        <div class="gate">
+          <div class="lock">🔒</div>
+          <h3>Verificér ejerskab af DSV A/S</h3>
+          <p>Ophavsretslovens §22 giver jer ret til at citere og genbruge uddrag fra artikler hvor virksomheden er nævnt — men kun som verificeret ejer. Verificering sikrer at citater kun frigives til rette vedkommende.</p>
+          <button class="btn dark">Opret konto for at verificere</button>
+          <button class="btn">Se eksempel på hvad du får</button>
+          <p style="margin-top:8px">Gratis · Ingen kontrakt</p>
+        </div>
+      </div>
+
+      <!-- articles -->
+      <div class="panel relpos">
+        <h2>Seneste omtaler</h2>
+        <span class="an" style="top:14px;right:14px" data-note="Fix 1+8+11: Neom-historien er nu korrekt NEGATIV og ligger øverst (DSV-bårne historier først). Uforklarede ★-ratings fjernet; visninger i dansk talformat. Historier om andre selskaber er badget 'DSV nævnt'.">1</span>
+        <div class="art">
+          <h3>DSV's Neom-eventyr mister mere fart efter nye saudiske nedskæringer</h3>
+          <div class="meta"><span class="tone neg"><span class="dot r"></span>Negativ</span> Mobility Watch · 2 d. siden · 470 visninger</div>
+        </div>
+        <div class="art">
+          <h3>Markedsoversigt: Zealand Pharma fik delvis revanche efter kursderoute – renten stod stille</h3>
+          <div class="meta"><span class="tone neu"><span class="dot a"></span>Neutral</span> Finans · 18 t. siden · 12.200 visninger <span class="mention">DSV nævnt</span></div>
+        </div>
+        <div class="art">
+          <h3>Aktieåbning: Novo trækker C25 ned trods pænt hop til Demant og Zealand Pharma-comeback</h3>
+          <div class="meta"><span class="tone neg"><span class="dot r"></span>Negativ</span> Finans · 1 d. siden · 24.100 visninger <span class="mention">DSV nævnt</span></div>
+        </div>
+        <div class="blurbox">
+          <div class="fake">
+            <div class="art"><h3>DSV udvider kapaciteten på tre europæiske ruter efter stærk efterspørgsel</h3><div class="meta">Børsen · 3 d. siden</div></div>
+            <div class="art"><h3>Logistikgiganten i nyt samarbejde om grøn transport</h3><div class="meta">ShippingWatch · 4 d. siden</div></div>
+            <div class="art"><h3>Analyse: Fragtraterne presser marginerne i tredje kvartal</h3><div class="meta">Finans · 5 d. siden</div></div>
+          </div>
+          <div class="overlay relpos">
+            <b>+5 flere omtaler</b>
+            <p>Følger du virksomheden, fanger vi al ny omtale i realtid — og du får besked med det samme.</p>
+            <button class="btn primary">Overvåg min virksomhed gratis</button>
+            <span style="font-size:12px;color:var(--muted)">Gratis · Intet kreditkort kræves</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- compare (secondary) -->
+    <div class="panel compare relpos" style="margin-top:0">
+      <h2 style="font-size:15.5px">Sammenlign aktører</h2>
+      <div class="panelsub">Hvem bliver DSV nævnt sammen med?</div>
+      <span class="an" style="top:14px;right:-8px" data-note="Fix 9 (P2): Konkurrent-data er samlet i ét tydeligt mærket sekundært panel (DESIGN.md §6.1.5) i stedet for at fylde halvdelen af KPI-rækken. 'Forventede visninger sammen med'-labelen er droppet.">9</span>
+      <div class="row"><b>Novo Nordisk A/S</b><span class="sub"><span class="n">6 fælles omtaler</span><a href="#">Se fælles →</a></span></div>
+      <div class="row"><b>C25-indekset</b><span class="sub"><span class="n">6 fælles omtaler</span><a href="#">Se fælles →</a></span></div>
+      <div class="row"><b>Zealand Pharma</b><span class="sub"><span class="n">4 fælles omtaler</span><a href="#">Se fælles →</a></span></div>
+    </div>
+  </div>
+
+  <!-- footer cta -->
+  <div class="footcta relpos">
+    <div class="txt">
+      <b>Følg din egen virksomhed</b>
+      <div class="small">30 dages historik · Ingen kontrakt · Klar på 2 minutter</div>
+      <span class="an" style="top:-8px;left:-10px" data-note="Fix 5 (P2): 'Opsæt din egen agent' → 'Følg din egen virksomhed'.">5</span>
+    </div>
+    <button class="btn primary">Overvåg gratis</button>
+  </div>
+
+</div>
+
+<button class="annot-toggle" onclick="document.body.classList.toggle('show-an');this.querySelector('span').textContent=document.body.classList.contains('show-an')?'Skjul ændringer':'Vis ændringer'">
+  <span>Vis ændringer</span> <span style="background:#7c3aed;color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800">i</span>
+</button>
+
+</body>
+</html>
