@@ -216,7 +216,7 @@ body.show-an .an{display:flex}
     <h1>DSV A/S</h1>
     <div class="sub">Nyhedsovervågning for DSV A/S <span class="pill">🇩🇰 Danske medier</span></div>
     <div class="lead">
-      <b>12 omtaler de sidste 7 dage</b> <span class="ctx">· 3 færre end ugen før · 123 omtaler de seneste 30 dage</span>
+      <b id="hero-main">12 omtaler de sidste 7 dage</b> <span class="ctx" id="hero-ctx">· 123 omtaler de seneste 30 dage</span>
     </div>
   </div>
 
@@ -246,7 +246,7 @@ body.show-an .an{display:flex}
     </div>
   </div>
 
-  <div class="toggle">
+  <div class="toggle" id="period-toggle">
     <button class="on">7 dage</button><button>30 dage</button><button>3 måneder</button>
   </div>
 
@@ -254,23 +254,23 @@ body.show-an .an{display:flex}
   <div class="kpis">
     <div class="card kpi">
       <div class="label">Omtaler</div>
-      <div class="num">12</div>
-      <div class="ctx"><span class="down">▼ 3</span> mod ugen før (15)</div>
+      <div class="num" id="kpi-omtaler">12</div>
+      <div class="ctx" id="kpi-omtaler-ctx">15 omtaler ugen før</div>
     </div>
     <div class="card kpi">
       <div class="label">Medier der dækker</div>
-      <div class="num">7</div>
-      <div class="ctx">Finans, Mobility Watch, Børsen m.fl.</div>
+      <div class="num" id="kpi-medier">7</div>
+      <div class="ctx" id="kpi-medier-ctx">Finans, Mobility Watch, Børsen m.fl.</div>
     </div>
     <div class="card kpi">
       <div class="label">Er omtalen positiv?</div>
-      <div class="tonebar">
+      <div class="tonebar" id="kpi-tonebar">
         <i style="width:33%;background:var(--green)"></i><i style="width:50%;background:var(--amber)"></i><i style="width:17%;background:var(--red)"></i>
       </div>
       <div class="tonelegend">
-        <span><span class="dot g"></span>Positiv 33%</span>
-        <span><span class="dot a"></span>Neutral 50%</span>
-        <span><span class="dot r"></span>Negativ 17%</span>
+        <span id="tone-pos"><span class="dot g"></span>Positiv 33%</span>
+        <span id="tone-neu"><span class="dot a"></span>Neutral 50%</span>
+        <span id="tone-neg"><span class="dot r"></span>Negativ 17%</span>
       </div>
     </div>
     <div class="card kpi">
@@ -292,8 +292,8 @@ body.show-an .an{display:flex}
   <!-- chart -->
   <div class="panel">
     <h2>Hvor meget bliver der skrevet om DSV?</h2>
-    <div class="panelsub">Daglige omtaler i danske medier, seneste 7 dage — sammenlignet med gennemsnittet for C25-selskaber</div>
-    <div class="chart">
+    <div class="panelsub" id="chart-sub">Daglige omtaler i danske medier, seneste 7 dage — sammenlignet med gennemsnittet for C25-selskaber</div>
+    <div class="chart" id="chart">
       <div class="avg"><span>C25-gennemsnit</span></div>
       <div class="bar"><span class="v">2</span><i style="height:32%"></i></div>
       <div class="bar zero"><span class="v">0</span><i></i></div>
@@ -303,7 +303,7 @@ body.show-an .an{display:flex}
       <div class="bar zero"><span class="v">0</span><i></i></div>
       <div class="bar"><span class="v">4</span><i style="height:64%"></i></div>
     </div>
-    <div class="xlab">
+    <div class="xlab" id="xlab">
       <span>3/6</span><span>4/6</span><span>5/6</span><span>6/6</span><span>7/6</span><span>8/6</span><span>9/6</span>
     </div>
     <div class="filters">
@@ -343,26 +343,8 @@ body.show-an .an{display:flex}
 
   <div class="cols">
     <div>
-      <!-- quotes -->
-      <div class="panel relpos" style="margin-top:0">
-        <span class="exlabel badge-ex">Eksempel — frigives efter verificering</span>
-        <h2>Citater I må genbruge (§22)</h2>
-        <div class="panelsub">Uddrag fra artikler hvor DSV er nævnt — lovlige at dele med korrekt kildeangivelse jf. ophavsretslovens §22</div>
-        <div class="quote"><div class="qt">Selskabet har ifølge direktøren opnået en markant vækst i det seneste kvartal, drevet af stærk efterspørgsel fra både eksisterende og nye kunder.</div><div class="src">Børsen · Virksomheden styrker sin position på markedet</div></div>
-        <div class="quote"><div class="qt">"Vi er meget tilfredse med udviklingen," udtaler CEO'en, og tilføjer at virksomheden forventer fortsat ekspansion på tre kernemarkeder.</div><div class="src">Finans · Ny strategi skal sikre fremtidig vækst</div></div>
-        <div class="quote" style="border-left-color:var(--amber)"><div class="qt">Virksomheden nævnes som en af de centrale aktører i sektoren. Analytikere peger på øget konkurrence som en potentiel udfordring fremadrettet.</div><div class="src">Berlingske Business · Brancheanalyse: Konkurrencen skærpes</div></div>
-        <div class="gate">
-          <div class="lock">🔒</div>
-          <h3>Verificér ejerskab af DSV A/S</h3>
-          <p>Ophavsretslovens §22 giver jer ret til at citere og genbruge uddrag fra artikler hvor virksomheden er nævnt — men kun som verificeret ejer. Verificering sikrer at citater kun frigives til rette vedkommende.</p>
-          <a class="btn dark" href="index.html">Opret konto for at verificere</a>
-          <button class="btn">Se eksempel på hvad du får</button>
-          <p style="margin-top:8px">Gratis · Ingen kontrakt</p>
-        </div>
-      </div>
-
       <!-- articles -->
-      <div class="panel relpos">
+      <div class="panel relpos" style="margin-top:0">
         <h2>Seneste omtaler</h2>
         <div class="panelsub">Hver tone-vurdering viser hvorfor. Er du uenig, retter du den med ét klik, og systemet lærer af det.</div>
         <span class="an" style="top:14px;right:14px" data-note="Nyt modul 3: Forklarlig tone. Research: automatisk sentiment kaldes 'absolute garbage' og 'rarely correct' (Reddit + G2). Citatet der begrunder hver vurdering vises inline, så rigtigheden kan efterprøves. Ret-med-ét-klik adresserer ønsket om AI der lærer af feedback i stedet for Boolean-vedligehold.">3</span>
@@ -395,6 +377,25 @@ body.show-an .an{display:flex}
           </div>
         </div>
       </div>
+
+      <!-- quotes -->
+      <div class="panel relpos">
+        <span class="exlabel badge-ex">Eksempel — frigives efter verificering</span>
+        <h2>Citater I må genbruge (§22)</h2>
+        <div class="panelsub">Uddrag fra artikler hvor DSV er nævnt — lovlige at dele med korrekt kildeangivelse jf. ophavsretslovens §22</div>
+        <div class="quote"><div class="qt">Selskabet har ifølge direktøren opnået en markant vækst i det seneste kvartal, drevet af stærk efterspørgsel fra både eksisterende og nye kunder.</div><div class="src">Børsen · Virksomheden styrker sin position på markedet</div></div>
+        <div class="quote"><div class="qt">"Vi er meget tilfredse med udviklingen," udtaler CEO'en, og tilføjer at virksomheden forventer fortsat ekspansion på tre kernemarkeder.</div><div class="src">Finans · Ny strategi skal sikre fremtidig vækst</div></div>
+        <div class="quote" style="border-left-color:var(--amber)"><div class="qt">Virksomheden nævnes som en af de centrale aktører i sektoren. Analytikere peger på øget konkurrence som en potentiel udfordring fremadrettet.</div><div class="src">Berlingske Business · Brancheanalyse: Konkurrencen skærpes</div></div>
+        <div class="gate">
+          <div class="lock">🔒</div>
+          <h3>Verificér ejerskab af DSV A/S</h3>
+          <p>Ophavsretslovens §22 giver jer ret til at citere og genbruge uddrag fra artikler hvor virksomheden er nævnt — men kun som verificeret ejer. Verificering sikrer at citater kun frigives til rette vedkommende.</p>
+          <a class="btn dark" href="index.html">Opret konto for at verificere</a>
+          <button class="btn">Se eksempel på hvad du får</button>
+          <p style="margin-top:8px">Gratis · Ingen kontrakt</p>
+        </div>
+      </div>
+
     </div>
 
     <!-- right column: compare + AI answers -->
@@ -436,6 +437,73 @@ body.show-an .an{display:flex}
 <button class="annot-toggle" onclick="document.body.classList.toggle('show-an');this.querySelector('span').textContent=document.body.classList.contains('show-an')?'Skjul noter':'Hvad er nyt?'">
   <span>Hvad er nyt?</span> <span style="background:#7c3aed;color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800">i</span>
 </button>
+
+<script>
+(function(){
+  // Dummy-datasæt pr. periode, så toggle'n kan trykkes (mødebeslutning 2026-06-10)
+  var P = {
+    '7 dage': {
+      hero: ['12 omtaler de sidste 7 dage', '· 123 omtaler de seneste 30 dage'],
+      omtaler: '12', omtalerCtx: '15 omtaler ugen før',
+      medier: '7', medierCtx: 'Finans, Mobility Watch, Børsen m.fl.',
+      tone: [33, 50, 17],
+      sub: 'Daglige omtaler i danske medier, seneste 7 dage — sammenlignet med gennemsnittet for C25-selskaber',
+      bars: [['3/6',2],['4/6',0],['5/6',2],['6/6',2],['7/6',2],['8/6',0],['9/6',4]]
+    },
+    '30 dage': {
+      hero: ['123 omtaler de seneste 30 dage', '· 12 den seneste uge'],
+      omtaler: '123', omtalerCtx: '108 omtaler måneden før',
+      medier: '14', medierCtx: 'Finans, Børsen, ShippingWatch m.fl.',
+      tone: [36, 48, 16],
+      sub: 'Ugentlige omtaler i danske medier, seneste 30 dage — sammenlignet med gennemsnittet for C25-selskaber',
+      bars: [['Uge 20',22],['Uge 21',31],['Uge 22',42],['Uge 23',28]]
+    },
+    '3 måneder': {
+      hero: ['310 omtaler de seneste 3 måneder', '· 123 den seneste måned'],
+      omtaler: '310', omtalerCtx: 'Stabilt niveau gennem kvartalet',
+      medier: '21', medierCtx: 'Landsdækkende og fagmedier',
+      tone: [34, 49, 17],
+      sub: 'Månedlige omtaler i danske medier, seneste 3 måneder — sammenlignet med gennemsnittet for C25-selskaber',
+      bars: [['April',96],['Maj',91],['Juni',123]]
+    }
+  };
+  function $(s){ return document.querySelector(s); }
+  function show(name){
+    var d = P[name];
+    $('#hero-main').textContent = d.hero[0];
+    $('#hero-ctx').textContent = d.hero[1];
+    $('#kpi-omtaler').textContent = d.omtaler;
+    $('#kpi-omtaler-ctx').textContent = d.omtalerCtx;
+    $('#kpi-medier').textContent = d.medier;
+    $('#kpi-medier-ctx').textContent = d.medierCtx;
+    var tb = $('#kpi-tonebar').children;
+    tb[0].style.width = d.tone[0]+'%'; tb[1].style.width = d.tone[1]+'%'; tb[2].style.width = d.tone[2]+'%';
+    $('#tone-pos').innerHTML = '<span class="dot g"></span>Positiv '+d.tone[0]+'%';
+    $('#tone-neu').innerHTML = '<span class="dot a"></span>Neutral '+d.tone[1]+'%';
+    $('#tone-neg').innerHTML = '<span class="dot r"></span>Negativ '+d.tone[2]+'%';
+    $('#chart-sub').textContent = d.sub;
+    var max = Math.max.apply(null, d.bars.map(function(b){ return b[1]; }));
+    $('#chart').innerHTML = '<div class="avg"><span>C25-gennemsnit</span></div>' + d.bars.map(function(b){
+      var zero = b[1] === 0;
+      return '<div class="bar'+(zero?' zero':'')+'"><span class="v">'+b[1]+'</span><i'+(zero?'':' style="height:'+Math.round(b[1]/max*86)+'%"')+'></i></div>';
+    }).join('');
+    $('#xlab').innerHTML = d.bars.map(function(b){ return '<span>'+b[0]+'</span>'; }).join('');
+  }
+  document.querySelectorAll('#period-toggle button').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('#period-toggle button').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      show(b.textContent.trim());
+    });
+  });
+  document.querySelectorAll('.fpill').forEach(function(p){
+    p.addEventListener('click', function(){
+      document.querySelectorAll('.fpill').forEach(function(x){ x.classList.remove('on'); });
+      p.classList.add('on');
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
