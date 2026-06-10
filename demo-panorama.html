@@ -341,5 +341,85 @@ a{color:var(--blue);text-decoration:none}
   </div>
 </div>
 
+<script>
+(function(){
+  // Dummy-datasæt pr. periode, så toggle'n virker
+  var P = {
+    '7 dage': { hero: ['4 omtaler de sidste 7 dage', '· 1 flere end ugen før · 14 omtaler de seneste 30 dage'],
+      omtaler: '4', omtalerCtx: '<span class="up">▲ 1</span> mod ugen før (3)',
+      medier: '3', medierCtx: 'Lokalavisen, Erhverv+ m.fl.',
+      tone: [50, 50, 0],
+      sub: 'Daglige omtaler i danske medier, seneste 7 dage',
+      bars: [['4/6',1],['5/6',0],['6/6',1],['7/6',0],['8/6',2],['9/6',0],['10/6',0]] },
+    '30 dage': { hero: ['14 omtaler de seneste 30 dage', '· 4 den seneste uge'],
+      omtaler: '14', omtalerCtx: '<span class="up">▲ 3</span> mod måneden før (11)',
+      medier: '5', medierCtx: 'Lokalavisen, Erhverv+, TV2 Nord m.fl.',
+      tone: [57, 36, 7],
+      sub: 'Ugentlige omtaler i danske medier, seneste 30 dage',
+      bars: [['Uge 20',2],['Uge 21',4],['Uge 22',4],['Uge 23',4]] },
+    '3 måneder': { hero: ['31 omtaler de seneste 3 måneder', '· 14 den seneste måned'],
+      omtaler: '31', omtalerCtx: 'Jævnt stigende kvartal',
+      medier: '7', medierCtx: 'Lokale og regionale medier',
+      tone: [55, 38, 7],
+      sub: 'Månedlige omtaler i danske medier, seneste 3 måneder',
+      bars: [['April',8],['Maj',9],['Juni',14]] }
+  };
+  function show(name){
+    var d = P[name];
+    document.querySelector('.hero .lead b').textContent = d.hero[0];
+    document.querySelector('.hero .lead .ctx').textContent = d.hero[1];
+    var kpi = document.querySelectorAll('.kpis .kpi');
+    kpi[0].querySelector('.num').textContent = d.omtaler;
+    kpi[0].querySelector('.ctx').innerHTML = d.omtalerCtx;
+    kpi[1].querySelector('.num').textContent = d.medier;
+    kpi[1].querySelector('.ctx').textContent = d.medierCtx;
+    kpi[2].querySelector('.tonebar').innerHTML =
+      '<i style="width:' + d.tone[0] + '%;background:var(--green)"></i>' +
+      '<i style="width:' + d.tone[1] + '%;background:var(--amber)"></i>' +
+      '<i style="width:' + d.tone[2] + '%;background:var(--red)"></i>';
+    var leg = kpi[2].querySelectorAll('.tonelegend > span');
+    leg[0].innerHTML = '<span class="dot g"></span>Positiv ' + d.tone[0] + '%';
+    leg[1].innerHTML = '<span class="dot a"></span>Neutral ' + d.tone[1] + '%';
+    leg[2].innerHTML = '<span class="dot r"></span>Negativ ' + d.tone[2] + '%';
+    var chart = document.querySelector('.chart');
+    chart.closest('.panel').querySelector('.panelsub').textContent = d.sub;
+    var avg = chart.querySelector('.avg');
+    var avgHtml = avg ? avg.outerHTML : '';
+    var max = Math.max.apply(null, d.bars.map(function(b){ return b[1]; }));
+    chart.innerHTML = avgHtml + d.bars.map(function(b){
+      var zero = b[1] === 0;
+      return '<div class="bar' + (zero ? ' zero' : '') + '"><span class="v">' + b[1] + '</span><i' +
+        (zero ? '' : ' style="height:' + Math.round(b[1] / max * 86) + '%"') + '></i></div>';
+    }).join('');
+    document.querySelector('.xlab').innerHTML = d.bars.map(function(b){ return '<span>' + b[0] + '</span>'; }).join('');
+  }
+  document.querySelectorAll('.toggle button').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.toggle button').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      show(b.textContent.trim());
+    });
+  });
+
+  // Tone-filtre filtrerer Seneste omtaler
+  var artPanel = Array.prototype.find.call(document.querySelectorAll('.panel'), function(p){
+    var h = p.querySelector('h2'); return h && h.textContent.indexOf('Seneste omtaler') === 0;
+  });
+  var TONE_CLASS = { 'Positiv': 'pos', 'Neutral': 'neu', 'Negativ': 'neg' };
+  document.querySelectorAll('.fpill').forEach(function(p){
+    p.addEventListener('click', function(){
+      document.querySelectorAll('.fpill').forEach(function(x){ x.classList.remove('on'); });
+      p.classList.add('on');
+      if (!artPanel) return;
+      var cls = TONE_CLASS[p.textContent.trim()];
+      artPanel.querySelectorAll(':scope > .art').forEach(function(a){
+        a.style.display = (!cls || a.querySelector('.tone.' + cls)) ? '' : 'none';
+      });
+      var blur = artPanel.querySelector('.blurbox');
+      if (blur) blur.style.display = cls ? 'none' : '';
+    });
+  });
+})();
+</script>
 </body>
 </html>

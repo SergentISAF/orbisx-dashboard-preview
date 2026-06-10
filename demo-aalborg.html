@@ -369,5 +369,92 @@ a{color:var(--blue);text-decoration:none}
 
 </div>
 
+<script>
+(function(){
+  // Dummy-datasæt pr. periode, så toggle'n virker (siden lover at "hele siden følger med")
+  var P = {
+    '7 dage': { hero: ['11 omtaler de sidste 7 dage', '· 2 flere end ugen før · 38 omtaler de seneste 30 dage'],
+      omtaler: '11', omtalerCtx: '<span class="up">▲ 2</span> mod ugen før (9)',
+      medier: '6', medierCtx: 'TV 2 Sport, Nordjyske, Bold.dk m.fl.',
+      tone: [64, 27, 9], toneCtx: '7 af 11 artikler omtaler jer positivt.',
+      sub: 'Daglige omtaler i danske medier, seneste 7 dage. Den stiplede linje viser gennemsnittet for ligaens klubber.',
+      explain: 'Tallene herunder dækker de seneste 7 dage. Skift periode med knapperne ovenfor, så følger hele siden med.',
+      bars: [['4/6',2],['5/6',1],['6/6',0],['7/6',3],['8/6',1],['9/6',2],['10/6',2]] },
+    '30 dage': { hero: ['38 omtaler de seneste 30 dage', '· 11 den seneste uge'],
+      omtaler: '38', omtalerCtx: '<span class="up">▲ 5</span> mod måneden før (33)',
+      medier: '9', medierCtx: 'TV 2 Sport, Nordjyske, DR m.fl.',
+      tone: [61, 29, 10], toneCtx: '23 af 38 artikler omtaler jer positivt.',
+      sub: 'Ugentlige omtaler i danske medier, seneste 30 dage. Den stiplede linje viser gennemsnittet for ligaens klubber.',
+      explain: 'Tallene herunder dækker de seneste 30 dage. Skift periode med knapperne ovenfor, så følger hele siden med.',
+      bars: [['Uge 20',7],['Uge 21',9],['Uge 22',11],['Uge 23',11]] },
+    '3 måneder': { hero: ['104 omtaler de seneste 3 måneder', '· 38 den seneste måned'],
+      omtaler: '104', omtalerCtx: 'Final 4-ugerne løftede niveauet',
+      medier: '12', medierCtx: 'Landsdækkende og nordjyske medier',
+      tone: [60, 28, 12], toneCtx: '62 af 104 artikler omtaler jer positivt.',
+      sub: 'Månedlige omtaler i danske medier, seneste 3 måneder. Den stiplede linje viser gennemsnittet for ligaens klubber.',
+      explain: 'Tallene herunder dækker de seneste 3 måneder. Skift periode med knapperne ovenfor, så følger hele siden med.',
+      bars: [['April',31],['Maj',35],['Juni',38]] }
+  };
+  function show(name){
+    var d = P[name];
+    document.querySelector('.hero .lead b').textContent = d.hero[0];
+    document.querySelector('.hero .lead .ctx').textContent = d.hero[1];
+    var kpi = document.querySelectorAll('.kpis .kpi');
+    kpi[0].querySelector('.num').textContent = d.omtaler;
+    kpi[0].querySelector('.ctx').innerHTML = d.omtalerCtx;
+    kpi[1].querySelector('.num').textContent = d.medier;
+    kpi[1].querySelector('.ctx').textContent = d.medierCtx;
+    kpi[2].querySelector('.tonebar').innerHTML =
+      '<i style="width:' + d.tone[0] + '%;background:var(--green)"></i>' +
+      '<i style="width:' + d.tone[1] + '%;background:var(--amber)"></i>' +
+      '<i style="width:' + d.tone[2] + '%;background:var(--red)"></i>';
+    var leg = kpi[2].querySelectorAll('.tonelegend > span');
+    leg[0].innerHTML = '<span class="dot g"></span>Positiv ' + d.tone[0] + '%';
+    leg[1].innerHTML = '<span class="dot a"></span>Neutral ' + d.tone[1] + '%';
+    leg[2].innerHTML = '<span class="dot r"></span>Negativ ' + d.tone[2] + '%';
+    var tctx = kpi[2].querySelector('.ctx');
+    if (tctx && d.toneCtx) tctx.textContent = d.toneCtx;
+    var ex = document.querySelector('.explain');
+    if (ex && d.explain) ex.innerHTML = '<span class="i">i</span>' + d.explain;
+    var chart = document.querySelector('.chart');
+    chart.closest('.panel').querySelector('.panelsub').textContent = d.sub;
+    var avg = chart.querySelector('.avg');
+    var avgHtml = avg ? avg.outerHTML : '';
+    var max = Math.max.apply(null, d.bars.map(function(b){ return b[1]; }));
+    chart.innerHTML = avgHtml + d.bars.map(function(b){
+      var zero = b[1] === 0;
+      return '<div class="bar' + (zero ? ' zero' : '') + '"><span class="v">' + b[1] + '</span><i' +
+        (zero ? '' : ' style="height:' + Math.round(b[1] / max * 86) + '%"') + '></i></div>';
+    }).join('');
+    document.querySelector('.xlab').innerHTML = d.bars.map(function(b){ return '<span>' + b[0] + '</span>'; }).join('');
+  }
+  document.querySelectorAll('.toggle button').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.toggle button').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      show(b.textContent.trim());
+    });
+  });
+
+  // Tone-filtre filtrerer Seneste omtaler
+  var artPanel = Array.prototype.find.call(document.querySelectorAll('.panel'), function(p){
+    var h = p.querySelector('h2'); return h && h.textContent.indexOf('Seneste omtaler') === 0;
+  });
+  var TONE_CLASS = { 'Positiv': 'pos', 'Neutral': 'neu', 'Negativ': 'neg' };
+  document.querySelectorAll('.fpill').forEach(function(p){
+    p.addEventListener('click', function(){
+      document.querySelectorAll('.fpill').forEach(function(x){ x.classList.remove('on'); });
+      p.classList.add('on');
+      if (!artPanel) return;
+      var cls = TONE_CLASS[p.textContent.trim()];
+      artPanel.querySelectorAll(':scope > .art').forEach(function(a){
+        a.style.display = (!cls || a.querySelector('.tone.' + cls)) ? '' : 'none';
+      });
+      var blur = artPanel.querySelector('.blurbox');
+      if (blur) blur.style.display = cls ? 'none' : '';
+    });
+  });
+})();
+</script>
 </body>
 </html>

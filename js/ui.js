@@ -41,6 +41,50 @@
     }));
   });
 
+  /* Topbar-søgning: Enter åbner emne-siden med søgeordet */
+  const topSearch = document.querySelector('.topbar .search input');
+  topSearch && topSearch.addEventListener('keydown', e => {
+    const q = topSearch.value.trim();
+    if (e.key === 'Enter' && q) location.href = `cluster.html?t=${encodeURIComponent(q)}`;
+  });
+
+  /* Dropdowns: alle filterbar/form-kontroller med kendt label får en menu */
+  const CTRL_OPTIONS = {
+    'Emne': ['Nova nordisk vs Lego', 'Mette', 'Silkeborg IF', 'Mine startups', 'Vingegaard'],
+    'Sammenlign med': ['Branchegennemsnit', 'C25-selskaber', 'Ingen sammenligning'],
+    'Medier': ['Alle danske medier', 'Kun landsdækkende', 'Kun fagmedier', 'Kun lokale medier'],
+    'Afsendelsestidspunkt': ['Kl. 06:00', 'Kl. 07:00', 'Kl. 08:00', 'Kl. 12:00'],
+  };
+  document.querySelectorAll('.field').forEach(field => {
+    const label = field.querySelector('label')?.textContent.trim();
+    const ctrl = field.querySelector('.ctrl');
+    const opts = CTRL_OPTIONS[label];
+    if (!ctrl || !opts) return;
+    ctrl.style.cursor = 'pointer';
+    ctrl.addEventListener('click', () => {
+      if (document.querySelector('.ctrl-menu')) return;
+      const menu = document.createElement('div');
+      menu.className = 'ctrl-menu';
+      menu.innerHTML = opts.map(t => `<div>${esc(t)}</div>`).join('');
+      const r = ctrl.getBoundingClientRect();
+      menu.style.left = `${r.left + scrollX}px`;
+      menu.style.top = `${r.bottom + scrollY + 4}px`;
+      document.body.appendChild(menu);
+      menu.querySelectorAll('div').forEach(opt => opt.onclick = () => {
+        const txt = [...ctrl.childNodes].find(n => n.nodeType === 3 && n.textContent.trim());
+        if (txt) txt.textContent = opt.textContent;
+        if (label === 'Emne') {
+          const legend = document.querySelector('.legend span');
+          if (legend) legend.innerHTML = legend.innerHTML.replace(/<\/i>.*/, `</i>${opt.textContent}`);
+        }
+        menu.remove();
+      });
+      setTimeout(() => document.addEventListener('click', function close(e) {
+        if (!menu.contains(e.target)) { menu.remove(); document.removeEventListener('click', close); }
+      }), 0);
+    });
+  });
+
   /* ---------- Historie-detalje (modal med dækning pr. medie) ---------- */
   const AVAIL = ['gratis', 'gratis', 'betalt', 'gratis', 'betalt', 'gratis'];
   function openStory(title, sitesText, tone) {
@@ -108,6 +152,41 @@
       const t = topKpi.querySelector('.val').textContent.trim();
       location.href = `story.html?t=${encodeURIComponent(t)}`;
     });
+
+    // "+ Opret sammenligning": inline-form der tilføjer en række til listen
+    const cmpBtn = [...document.querySelectorAll('a.btn-ghost')].find(a => a.textContent.includes('Opret sammenligning'));
+    cmpBtn && cmpBtn.addEventListener('click', e => {
+      e.preventDefault();
+      if (document.querySelector('.cmp-form')) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'cmp-form';
+      wrap.style.cssText = 'padding:0 14px 12px;display:flex;gap:8px';
+      wrap.innerHTML = `<input class="input" placeholder="Fx Håndboldligaen, konkurrenter…" style="flex:1;min-width:0">
+        <button class="btn btn-primary" type="button">Tilføj</button>`;
+      cmpBtn.parentElement.before(wrap);
+      const input = wrap.querySelector('input');
+      input.focus();
+      function add() {
+        const name = input.value.trim();
+        if (!name) return;
+        const row = document.createElement('div');
+        row.className = 'compare-row';
+        row.innerHTML = `<div class="name">${esc(name)}<span>samler data nu</span></div>
+          <div class="v"><b>beregnes…</b><div class="delta">klar om få min.</div></div>`;
+        document.querySelector('.compare-list').appendChild(row);
+        wrap.remove();
+      }
+      wrap.querySelector('button').onclick = add;
+      input.addEventListener('keydown', ev => { if (ev.key === 'Enter') add(); });
+    });
+  }
+
+  /* ---------- Emne-detalje ---------- */
+  if (page === 'cluster.html') {
+    document.querySelectorAll('.article').forEach(a => a.addEventListener('click', () => {
+      const t = a.querySelector('h3')?.textContent || '';
+      location.href = `story.html?t=${encodeURIComponent(t)}`;
+    }));
   }
 
   /* ---------- Nyheder ---------- */
@@ -141,10 +220,56 @@
         'Positiv');
     });
     if (hero) hero.style.cursor = 'pointer';
+
+    // Søgefeltet i medie-panelet filtrerer listen mens man taster
+    const ms = document.querySelector('.media-search input');
+    ms && ms.addEventListener('input', () => {
+      const q = ms.value.trim().toLowerCase();
+      document.querySelectorAll('.media-item').forEach(i => {
+        if (i.textContent.includes('Alle medier')) return;
+        i.style.display = !q || i.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    });
+
+    // "Tilpas medier": vælg hvilke medier der vises i panelet
+    const customize = [...document.querySelectorAll('a.btn-ghost')].find(a => a.textContent.includes('Tilpas medier'));
+    customize && customize.addEventListener('click', e => {
+      e.preventDefault();
+      const items = [...document.querySelectorAll('.media-item')].filter(i => !i.textContent.includes('Alle medier'));
+      const overlay = document.createElement('div');
+      overlay.className = 'story-overlay';
+      overlay.innerHTML = `
+        <div class="story-sheet">
+          <div class="head"><h3>Tilpas medielisten</h3><button aria-label="Luk">✕</button></div>
+          <div class="pubs">
+            <p class="muted" style="font-size:12.5px;padding:6px 0 4px">Vælg hvilke medier der vises i panelet til venstre.</p>
+            ${items.map((it, i) => `
+              <label class="pub-row" style="cursor:pointer;gap:12px">
+                <input type="checkbox" data-i="${i}" ${it.style.display === 'none' ? '' : 'checked'}>
+                <b style="flex:1">${esc(it.childNodes[0].textContent.trim())}</b>
+                <span class="t" style="flex:0;white-space:nowrap">${esc(it.querySelector('.c')?.textContent || '0')} historier</span>
+              </label>`).join('')}
+            <p style="padding:12px 0 4px"><button class="btn btn-primary" style="width:100%;justify-content:center">Gem</button></p>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+      overlay.querySelector('.head button').onclick = () => overlay.remove();
+      overlay.addEventListener('click', ev => { if (ev.target === overlay) overlay.remove(); });
+      overlay.querySelector('.btn-primary').onclick = () => {
+        overlay.querySelectorAll('input[type=checkbox]').forEach(cb => {
+          items[Number(cb.dataset.i)].style.display = cb.checked ? '' : 'none';
+        });
+        overlay.remove();
+      };
+    });
   }
 
   /* ---------- Rapporter ---------- */
   if (page === 'comm.html') {
+    // Annullér: nulstil formularen til udgangspunktet
+    const cancel = [...document.querySelectorAll('.form-foot a.btn-ghost')].find(a => a.textContent.trim() === 'Annullér');
+    cancel && cancel.addEventListener('click', e => { e.preventDefault(); location.reload(); });
+
     const nameInput = document.querySelector('.form-sec .input');
     const mailHead = document.querySelector('.preview .ph');
     if (nameInput && mailHead) {
@@ -191,27 +316,29 @@
 
   /* ---------- Analyse ---------- */
   if (page === 'insights.html') {
-    // Emne-vælger: simpel dropdown der skifter label + legend
-    const topicCtrl = document.querySelector('.filterbar .field .ctrl');
-    const TOPICS = ['Nova nordisk vs Lego', 'Mette', 'Silkeborg IF', 'Mine startups', 'Vingegaard'];
-    topicCtrl && topicCtrl.addEventListener('click', () => {
-      if (document.querySelector('.ctrl-menu')) return;
-      const menu = document.createElement('div');
-      menu.className = 'ctrl-menu';
-      menu.innerHTML = TOPICS.map(t => `<div>${t}</div>`).join('');
-      const r = topicCtrl.getBoundingClientRect();
-      menu.style.left = `${r.left + scrollX}px`;
-      menu.style.top = `${r.bottom + scrollY + 4}px`;
-      document.body.appendChild(menu);
-      menu.querySelectorAll('div').forEach(opt => opt.onclick = () => {
-        topicCtrl.childNodes[1].textContent = opt.textContent;
-        const legend = document.querySelector('.legend span');
-        if (legend) legend.innerHTML = legend.innerHTML.replace(/<\/i>.*/, `</i>${opt.textContent}`);
-        menu.remove();
+    // Eksportér: download synlige tal som CSV (Excel-venlig, dansk semikolon)
+    const exportBtn = [...document.querySelectorAll('a.btn-ghost')].find(a => a.textContent.includes('Eksportér'));
+    exportBtn && exportBtn.addEventListener('click', e => {
+      e.preventDefault();
+      const lines = [['Sektion', 'Navn', 'Værdi']];
+      document.querySelectorAll('.kpi').forEach(k => {
+        lines.push(['Nøgletal', k.querySelector('.label')?.childNodes[0].textContent.trim(), k.querySelector('.val')?.textContent.trim()]);
       });
-      setTimeout(() => document.addEventListener('click', function close(e) {
-        if (!menu.contains(e.target)) { menu.remove(); document.removeEventListener('click', close); }
-      }), 0);
+      const cards = document.querySelectorAll('.two-col .card');
+      cards[0] && cards[0].querySelectorAll('b').forEach(b => {
+        const v = b.parentElement.querySelector('.muted')?.textContent.trim();
+        if (v) lines.push(['Medie', b.textContent.trim(), v]);
+      });
+      cards[1] && cards[1].querySelectorAll('b').forEach(b => {
+        const navn = b.parentElement.querySelector('span')?.textContent.trim();
+        if (navn) lines.push(['Tone', navn, b.textContent.trim()]);
+      });
+      const csv = '\ufeff' + lines.map(r => r.map(c => `"${(c || '').replace(/"/g, '""')}"`).join(';')).join('\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+      a.download = 'orbis-analyse.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
     });
   }
 })();
