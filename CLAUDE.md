@@ -90,4 +90,4 @@ Mørk navy sidebar, lyse kort med bløde skygger. Matcher eksisterende Orbis-bra
 
 ## Spørgsmål
 
-Designvalg/intentioner: Dan Holmstad (danholmstad@gmail.com / Holmstad@orbisx.ai).
+Designvalg/intentioner: Dan Holmstad (holmstad@orbisx.ai).

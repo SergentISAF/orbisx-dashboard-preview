@@ -94,4 +94,4 @@ style.css       Delt designsystem (CSS-variabler + komponenter)
 
 ## Kontakt
 
-Dan Holmstad — danholmstad@gmail.com / Holmstad@orbisx.ai
+Dan Holmstad — holmstad@orbisx.ai
