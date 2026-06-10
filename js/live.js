@@ -134,6 +134,8 @@
         <div class="meta">${TYPE_LABEL[c.cluster_type] || 'Emne'} · sidst aktivitet ${esc(c.cluster_last_seen)}</div>
         <div class="foot"><div class="n">${c.total_cluster_articles ?? 0} <span>artikler</span></div>
           <span class="dot ${fresh ? 'amber' : 'green'}"></span></div>`;
+      card.addEventListener('click', () =>
+        location.href = `cluster.html?id=${c.user_cluster_id}&t=${encodeURIComponent(c.title)}`);
       grid.appendChild(card);
     }
     if (addTile) grid.appendChild(addTile);
@@ -160,9 +162,59 @@
     markDemo(document.querySelector('.two-col > .card')); // sammenlign aktører
   }
 
+  /* ---------- Emne-detalje (cluster.html?id=...) ---------- */
+  async function loadEmne() {
+    const clusterId = new URLSearchParams(location.search).get('id');
+    if (!clusterId) return; // demo-visning uden id
+    const userId = await window.OrbisAuth.ensureUserId();
+    const data = await window.OrbisAPI.getClusterArticles(userId, clusterId);
+    const results = data.results || [];
+    const meta = data.metadata || {};
+
+    if (meta.title) {
+      document.getElementById('title').textContent = meta.title;
+      document.getElementById('crumbTitle').textContent = meta.title;
+      document.title = `${meta.title} | Orbis`;
+    }
+    document.getElementById('metaLine').textContent = TYPE_LABEL[meta.cluster_type] || 'Emne';
+    document.getElementById('kpiTotal').textContent = meta.total_articles ?? results.length;
+
+    let free = 0, paid = 0, fresh = 0;
+    for (const a of results) {
+      free += a.availabilities?.free || 0;
+      paid += a.availabilities?.paid || 0;
+    }
+    document.getElementById('kpiNew').textContent = fresh || '–';
+    const kpis = document.querySelectorAll('.kpi');
+    kpis[2].querySelector('.val').innerHTML =
+      `<span class="pill green">${free} gratis</span> <span class="pill red">${paid} betalt</span>`;
+    markDemo(kpis[1]); // "nye siden sidst" findes ikke i articles-svaret
+
+    const list = document.getElementById('articles');
+    list.innerHTML = '';
+    for (const a of results) {
+      const av = a.availabilities || {};
+      const avLabel = av.paid && av.free ? ['amber', 'blandet'] : av.paid ? ['red', 'betalt'] : ['green', 'gratis'];
+      const sites = (a.site_names || []).slice(0, 4).join(', ') +
+        ((a.site_names || []).length > 4 ? ` + ${a.site_names.length - 4} andre` : '');
+      const el = document.createElement('div');
+      el.className = 'article';
+      el.innerHTML = `
+        <div class="row"><span class="pill blue">${(a.site_names || []).length || a.total_articles || 1} medier</span>
+          <span class="pill ${avLabel[0]}">${avLabel[1]}</span>
+          <span class="faint" style="font-size:12px;margin-left:auto">${esc(a.last_article_created_at || '')}</span></div>
+        <h3>${esc(a.article_title_1 || a.article_title_2 || 'Uden titel')}</h3>
+        <div class="sites">${esc(sites)}</div>`;
+      if (a.last_article_url) el.addEventListener('click', () => window.open(a.last_article_url, '_blank', 'noopener'));
+      list.appendChild(el);
+    }
+    if (!results.length) list.innerHTML = '<p class="muted">Ingen historier i emnet endnu.</p>';
+  }
+
   /* ---------- Sidevælger: kobl flere skærme på her, samme mønster ---------- */
   const PAGE_LOADERS = {
     'index.html': loadOverblik,
+    'cluster.html': loadEmne,
     // 'insights.html': loadAnalyse,   ← platformMetadata + getClusterArticles
     // 'news.html': loadNyheder,       ← getTrending(3) + getThreadPublications
     // 'comm.html': loadRapporter,     ← afventer job_specs-endpoint fra Mikkel

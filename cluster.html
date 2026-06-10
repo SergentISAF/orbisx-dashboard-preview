@@ -1,0 +1,100 @@
+<!doctype html><html lang="da"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Emne | Orbis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .article-list { display:flex; flex-direction:column; gap:12px; margin-top:14px; }
+  .article { background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px 18px; box-shadow:var(--shadow); cursor:pointer; transition:.15s; }
+  .article:hover { box-shadow:var(--shadow-lg); transform:translateY(-1px); }
+  .article .row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px; }
+  .article h3 { font-size:15px; font-weight:600; line-height:1.35; }
+  .article .sites { color:var(--muted); font-size:12.5px; margin-top:8px; }
+  .back { display:inline-flex; align-items:center; gap:6px; color:var(--blue); font-weight:600;
+    font-size:13px; text-decoration:none; margin-bottom:10px; }
+</style></head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand"><span class="ring"></span><b>Orbis</b></div>
+  <nav class="nav">
+    <a class="active" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>Overblik</a>
+    <a href="insights.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Analyse</a>
+    <a href="comm.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Rapporter</a>
+    <a href="news.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>Nyheder</a>
+  </nav>
+  <div class="side-foot">
+    <div class="lang">🇩🇰 Dansk</div>
+    <div class="me"><span class="av">D</span>danholmstad@gmail.com</div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="crumb"><a href="index.html" style="color:inherit;text-decoration:none">Overblik</a> / <b id="crumbTitle">Emne</b></div>
+    <div class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input placeholder="Søg i dine emner og medier"></div>
+    <div class="bell"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg><span class="dot"></span></div>
+  </div>
+
+  <div class="content">
+    <a class="back" href="index.html">← Alle emner</a>
+    <div class="h-eyebrow" id="metaLine">Emne</div>
+    <h1 class="page-title" id="title">Nova nordisk vs Lego</h1>
+    <p class="page-sub" id="subLine">Alle historier hvor emnet er omtalt, nyeste først.</p>
+
+    <div class="kpis mt16" style="grid-template-columns:repeat(3,1fr)">
+      <div class="kpi"><div class="label">Historier i alt</div><div class="val" id="kpiTotal">57</div><div class="sub" id="kpiTotalSub">på tværs af alle medier</div></div>
+      <div class="kpi"><div class="label">Nye siden sidst</div><div class="val" id="kpiNew">1</div><div class="sub">siden du sidst kiggede</div></div>
+      <div class="kpi"><div class="label">Adgang</div><div class="val" style="font-size:18px;padding-top:7px"><span class="pill green">38 gratis</span> <span class="pill red">19 betalt</span></div><div class="sub">fordeling i de seneste historier</div></div>
+    </div>
+
+    <div class="section-head"><div><h2>Historier</h2><p>Hver historie samler dækningen på tværs af medier</p></div></div>
+    <div class="article-list" id="articles">
+
+      <div class="article"><div class="row"><span class="pill blue">7 medier</span><span class="dot green"></span><span class="muted" style="font-size:12.5px">Positiv tone</span><span class="pill green">gratis</span><span class="faint" style="font-size:12px;margin-left:auto">2 t. siden</span></div>
+        <h3>Novo Nordisk overhaler Lego som Danmarks mest omtalte virksomhed i maj</h3>
+        <div class="sites">Børsen, Berlingske, Finans, DR + 3 andre</div></div>
+
+      <div class="article"><div class="row"><span class="pill blue">4 medier</span><span class="dot amber"></span><span class="muted" style="font-size:12.5px">Neutral tone</span><span class="pill amber">blandet</span><span class="faint" style="font-size:12px;margin-left:auto">5 t. siden</span></div>
+        <h3>Lego åbner ny fabrik i Vietnam og fremrykker grønne mål</h3>
+        <div class="sites">Jyllands-Posten, TV2, Børsen + 1 mere</div></div>
+
+      <div class="article"><div class="row"><span class="pill blue">11 medier</span><span class="dot green"></span><span class="muted" style="font-size:12.5px">Positiv tone</span><span class="pill green">gratis</span><span class="faint" style="font-size:12px;margin-left:auto">8 t. siden</span></div>
+        <h3>Wegovy-efterspørgsel sender Novo-aktien i rekord for tredje uge i træk</h3>
+        <div class="sites">DR, TV2, Ekstra Bladet, B.T. + 7 andre</div></div>
+
+      <div class="article"><div class="row"><span class="pill blue">3 medier</span><span class="dot red"></span><span class="muted" style="font-size:12.5px">Negativ tone</span><span class="pill red">betalt</span><span class="faint" style="font-size:12px;margin-left:auto">i går</span></div>
+        <h3>Kritik af Legos leverandørkæde: NGO kræver mere åbenhed</h3>
+        <div class="sites">Information, Politiken, Danwatch</div></div>
+
+      <div class="article"><div class="row"><span class="pill blue">6 medier</span><span class="dot amber"></span><span class="muted" style="font-size:12.5px">Neutral tone</span><span class="pill green">gratis</span><span class="faint" style="font-size:12px;margin-left:auto">i går</span></div>
+        <h3>Analyse: Sådan klarer de to danske giganter sig i den globale konkurrence</h3>
+        <div class="sites">Finans, Børsen, Berlingske + 3 andre</div></div>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/config.local.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/api.js"></script>
+<script src="js/live.js"></script>
+<script src="js/ui.js"></script>
+<script>
+  // Demo-titel fra URL (live-mode overskriver med rigtige data via live.js)
+  (function () {
+    const t = new URLSearchParams(location.search).get('t');
+    if (t) {
+      document.getElementById('title').textContent = t;
+      document.getElementById('crumbTitle').textContent = t;
+      document.title = `${t} | Orbis`;
+    }
+  })();
+</script>
+</body></html>

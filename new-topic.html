@@ -1,0 +1,129 @@
+<!doctype html><html lang="da"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Følg et nyt emne | Orbis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .topic-card { max-width:640px; }
+  .chips { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .chip { display:inline-flex; align-items:center; gap:7px; background:var(--blue-soft); color:var(--blue);
+    font-weight:600; font-size:13px; border-radius:999px; padding:7px 12px; }
+  .chip button { border:0; background:none; color:inherit; cursor:pointer; font-size:14px; line-height:1; padding:0; }
+  .switch-row { display:flex; align-items:center; justify-content:space-between; gap:14px;
+    border:1px solid var(--line); border-radius:12px; padding:13px 14px; margin-top:9px; cursor:pointer; }
+  .switch-row .l b { display:block; font-size:14px; }
+  .switch-row .l span { color:var(--muted); font-size:12.5px; }
+  .toggle { width:42px; height:24px; border-radius:999px; background:#cbd5e1; position:relative; flex:0 0 42px; transition:.15s; }
+  .toggle::after { content:""; position:absolute; top:3px; left:3px; width:18px; height:18px;
+    border-radius:50%; background:#fff; transition:.15s; }
+  .switch-row.on .toggle { background:var(--blue); }
+  .switch-row.on .toggle::after { left:21px; }
+  .success { display:none; background:var(--green-soft); color:var(--green); border-radius:12px;
+    padding:14px 16px; font-weight:600; font-size:14px; margin-top:14px; }
+  .success.show { display:block; }
+  .back { display:inline-flex; align-items:center; gap:6px; color:var(--blue); font-weight:600;
+    font-size:13px; text-decoration:none; margin-bottom:10px; }
+</style></head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand"><span class="ring"></span><b>Orbis</b></div>
+  <nav class="nav">
+    <a class="active" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>Overblik</a>
+    <a href="insights.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Analyse</a>
+    <a href="comm.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Rapporter</a>
+    <a href="news.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>Nyheder</a>
+  </nav>
+  <div class="side-foot">
+    <div class="lang">🇩🇰 Dansk</div>
+    <div class="me"><span class="av">D</span>danholmstad@gmail.com</div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="crumb"><a href="index.html" style="color:inherit;text-decoration:none">Overblik</a> / <b>Nyt emne</b></div>
+    <div class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input placeholder="Søg i dine emner og medier"></div>
+    <div class="bell"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg><span class="dot"></span></div>
+  </div>
+
+  <div class="content">
+    <a class="back" href="index.html">← Alle emner</a>
+    <div class="h-eyebrow">Nyt emne</div>
+    <h1 class="page-title">Hvad vil du følge?</h1>
+    <p class="page-sub">Giv emnet et navn og tilføj de ord vi skal holde øje med. Vi begynder at samle dækningen med det samme.</p>
+
+    <div class="card form-card topic-card mt16">
+      <div class="form-sec">
+        <div class="ft">Trin 1</div>
+        <div class="fh">Navngiv emnet</div>
+        <div class="fd">Navnet er kun til dig, fx "Vores brand" eller "Konkurrenter".</div>
+        <input class="input" id="topicName" placeholder="Fx Aalborg Håndbold">
+      </div>
+      <div class="form-sec">
+        <div class="ft">Trin 2</div>
+        <div class="fh">Hvilke ord skal vi holde øje med?</div>
+        <div class="fd">Skriv et ord eller navn og tryk Enter. Du kan tilføje flere.</div>
+        <input class="input" id="kwInput" placeholder="Fx virksomhedsnavn, person eller produkt">
+        <div class="chips" id="chips"></div>
+      </div>
+      <div class="form-sec">
+        <div class="ft">Trin 3</div>
+        <div class="fh">Hvor præcist skal vi matche?</div>
+        <div class="switch-row on" id="strictRow">
+          <div class="l"><b>Kun præcise match</b><span>Slå fra hvis vi også skal fange bøjninger og nære varianter</span></div>
+          <div class="toggle"></div>
+        </div>
+      </div>
+      <div class="form-foot">
+        <a class="btn btn-ghost" href="index.html">Annullér</a>
+        <button class="btn btn-primary" id="createBtn">Følg emnet</button>
+      </div>
+    </div>
+    <div class="success topic-card" id="success">✓ Emnet er oprettet. Vi samler dækningen nu — de første historier dukker typisk op inden for få minutter.
+      <span class="muted" style="display:block;font-weight:400;font-size:12.5px;margin-top:4px">Prototype: emnet gemmes ikke endnu — opret-endpointet kobles på af Mikkel.</span></div>
+  </div>
+</div>
+
+<script src="js/config.local.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/api.js"></script>
+<script src="js/live.js"></script>
+<script>
+  (function () {
+    const chips = document.getElementById('chips');
+    const input = document.getElementById('kwInput');
+    const words = [];
+
+    function render() {
+      chips.innerHTML = words.map((w, i) =>
+        `<span class="chip">${w}<button data-i="${i}" aria-label="Fjern ${w}">✕</button></span>`).join('');
+      chips.querySelectorAll('button').forEach(b =>
+        b.onclick = () => { words.splice(Number(b.dataset.i), 1); render(); });
+    }
+
+    input.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      const w = input.value.trim();
+      if (w && !words.includes(w)) { words.push(w); render(); }
+      input.value = '';
+    });
+
+    const strictRow = document.getElementById('strictRow');
+    strictRow.onclick = () => strictRow.classList.toggle('on');
+
+    document.getElementById('createBtn').onclick = () => {
+      const name = document.getElementById('topicName').value.trim();
+      if (!name && !words.length) { input.focus(); return; }
+      document.getElementById('success').classList.add('show');
+      document.getElementById('success').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+  })();
+</script>
+</body></html>
