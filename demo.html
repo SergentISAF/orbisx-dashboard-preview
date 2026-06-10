@@ -129,6 +129,47 @@ a{color:var(--blue);text-decoration:none}
 .footcta b{font-size:16px}
 .footcta .small{color:#94a3b8;font-size:13px;margin-top:2px}
 
+/* morgenbriefing */
+.brief{position:relative;background:linear-gradient(135deg,#020617 0%,#0b1f4e 62%,#13306e 100%);color:#e2e8f0;border-radius:var(--radius);padding:26px 32px;margin-top:20px;box-shadow:0 8px 28px rgba(2,6,23,.25);overflow:hidden}
+.brief::after{content:"";position:absolute;top:-70px;right:-70px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(96,165,250,.22),transparent 70%)}
+.brief .bhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brief .btag{display:inline-flex;align-items:center;gap:7px;background:rgba(96,165,250,.14);border:1px solid rgba(96,165,250,.4);color:#93c5fd;border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:700}
+.brief .btag .spark{width:7px;height:7px;border-radius:50%;background:var(--sky);box-shadow:0 0 8px var(--sky)}
+.brief .btime{font-size:12.5px;color:#94a3b8}
+.brief h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-top:12px;color:#fff}
+.brief .brow{display:flex;gap:14px;margin-top:14px;font-size:14.5px;line-height:1.55}
+.brief .brow .blab{flex:0 0 128px;font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#7da7f9;padding-top:3px}
+.brief .brow p{flex:1;color:#dbe3f0}
+.brief .brow p b{color:#fff;font-weight:700}
+.brief .bfoot{display:flex;align-items:center;gap:14px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(148,163,184,.25);flex-wrap:wrap}
+.brief .bfoot .small{color:#94a3b8;font-size:12.5px;flex:1;min-width:220px}
+
+/* spredningsvarsel */
+.momo{display:flex;align-items:stretch;gap:10px;margin-top:18px;flex-wrap:wrap}
+.mstep{flex:1;min-width:170px;border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff}
+.mstep .md{font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.mstep .mn{font-size:22px;font-weight:800;margin-top:4px}
+.mstep .mn span{font-size:13px;font-weight:600;color:var(--muted)}
+.mstep .mm{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.45}
+.mstep.hot{border-color:#fcd34d;background:#fffbeb}
+.marrow{align-self:center;color:#cbd5e1;font-size:18px;font-weight:700}
+.mbadge{display:inline-flex;align-items:center;gap:6px;background:#fef2f2;border:1px solid #fecaca;color:var(--red);border-radius:999px;padding:3px 11px;font-size:12px;font-weight:700}
+.mforecast{display:flex;gap:10px;align-items:flex-start;margin-top:16px;padding:13px 16px;background:#eef4ff;border:1px solid #dbe7ff;border-radius:12px;font-size:13.5px;color:#1e3a8a;line-height:1.5}
+
+/* forklarlig tone */
+.why{margin-top:4px;font-size:13px;color:#475569;background:#f8fafc;border-left:3px solid #e2e8f0;padding:8px 12px;border-radius:0 10px 10px 0;line-height:1.5}
+.why b{font-weight:700;color:var(--ink)}
+.why mark{background:#fde68a;padding:0 3px;border-radius:3px}
+
+/* AI-svar */
+.aians .chat{margin-top:14px;border:1px solid var(--line);border-radius:12px;padding:14px;background:#f8fafc}
+.aians .q{font-size:13px;font-weight:600;background:var(--navy);color:#fff;border-radius:12px 12px 2px 12px;padding:8px 12px;margin-left:24px}
+.aians .a{font-size:13px;background:#fff;border:1px solid var(--line);border-radius:12px 12px 12px 2px;padding:10px 12px;margin-top:10px;margin-right:12px;color:#334155;line-height:1.5}
+.aians .a .blur{filter:blur(4px);user-select:none}
+.aians .srcs{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.aians .srcs span{font-size:11.5px;font-weight:600;color:#475569;background:#f1f5f9;border-radius:999px;padding:3px 9px}
+.badge-new{background:#ecfdf5;border:1px solid #a7f3d0;color:#047857;border-radius:999px;font-size:11.5px;font-weight:700;padding:2px 9px;vertical-align:2px}
+
 /* annotations */
 .annot-toggle{position:fixed;bottom:18px;right:18px;z-index:100;background:#fff;border:1px solid var(--line);border-radius:999px;box-shadow:0 4px 14px rgba(2,6,23,.15);padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;gap:8px;align-items:center}
 .an{display:none;position:absolute;background:#7c3aed;color:#fff;font-size:11px;font-weight:800;width:20px;height:20px;border-radius:50%;align-items:center;justify-content:center;cursor:help;z-index:40;box-shadow:0 2px 6px rgba(124,58,237,.4)}
@@ -148,6 +189,11 @@ body.show-an .an{display:flex}
   .topbar .btn:not(.primary){display:none}
   .topbar .pill{display:none}
   .topbar .btn.primary{padding:8px 12px;font-size:13px}
+  .brief{padding:22px 20px}
+  .brief .brow{flex-direction:column;gap:4px}
+  .brief .brow .blab{flex:none;padding-top:0}
+  .marrow{display:none}
+  .mstep{min-width:100%}
 }
 </style>
 </head>
@@ -156,9 +202,7 @@ body.show-an .an{display:flex}
 <div class="topbar">
   <div class="wrap">
     <div class="logo"><span class="ring"></span> Orbis</div>
-    <div class="topnote relpos">Du ser rigtige dækningsdata for DSV A/S. Følg din egen virksomhed på 2 minutter.
-      <span class="an" style="top:-6px;right:-26px" data-note="Fix 5 (P2): 'Opsæt din egen agent' → 'Følg din egen virksomhed'. Ingen agent-jargon i UI (DESIGN.md §8).">5</span>
-    </div>
+    <div class="topnote">Du ser rigtige dækningsdata for DSV A/S. Følg din egen virksomhed på 2 minutter.</div>
     <span class="pill">🇩🇰 DA</span>
     <a class="btn" href="index.html">Log på</a>
     <a class="btn primary" href="index.html">Overvåg min virksomhed gratis</a>
@@ -171,9 +215,34 @@ body.show-an .an{display:flex}
   <div class="hero relpos">
     <h1>DSV A/S</h1>
     <div class="sub">Nyhedsovervågning for DSV A/S <span class="pill">🇩🇰 Danske medier</span></div>
-    <div class="lead relpos">
+    <div class="lead">
       <b>12 omtaler de sidste 7 dage</b> <span class="ctx">· 3 færre end ugen før · 123 omtaler de seneste 30 dage</span>
-      <span class="an" style="top:-4px;left:-28px" data-note="Fix 2+3 (P1): Rød '↓ Dækningen faldt 20%' erstattet af neutralt absolut tal med kontekst. 30-dages totalen (123) vises, så title-tagget ikke modsiger siden.">2</span>
+    </div>
+  </div>
+
+  <!-- morgenbriefing -->
+  <div class="brief relpos">
+    <span class="an" style="top:16px;right:16px" data-note="Nyt modul 1: AI-morgenbriefingen. Research: kun 7% af PR-folk er helt sikre på egne tal (Muck Rack 2025), og rapportering er den mest forhadte opgave ('Something or someone needs to do it for me!'). Briefingen svarer på hvad der ændrede sig, hvorfor det betyder noget, og hvad man bør gøre. Ikke rå data.">1</span>
+    <div class="bhead">
+      <span class="btag"><span class="spark"></span>Morgenbriefing</span>
+      <span class="btime">Skrevet af Orbis AI · i dag kl. 06.42 · baseret på alle 12 omtaler</span>
+    </div>
+    <h2>Neom-vinklen er ved at sætte sig. I har et døgn til at svare.</h2>
+    <div class="brow">
+      <span class="blab">Hvad er sket</span>
+      <p>Mobility Watch' kritiske Neom-artikel fra tirsdag er ugens mest læste DSV-omtale, og <b>alle ugens negative omtaler udspringer af den</b>. Resten af dækningen er neutral markedsomtale i Finans og Børsen.</p>
+    </div>
+    <div class="brow">
+      <span class="blab">Hvorfor vigtigt</span>
+      <p>Rammen "DSV's Neom-eventyr mister fart" er ved at blive standardvinklen. <b>Ingen af de 12 omtaler citerer DSV's egen version.</b> Historien fortælles lige nu uden jer.</p>
+    </div>
+    <div class="brow">
+      <span class="blab">Hvad I kan gøre</span>
+      <p>Et proaktivt budskab om Neom-status til Finans eller Børsen i dag kan flytte vinklen, inden historien spreder sig. Se spredningsvarslet længere nede.</p>
+    </div>
+    <div class="bfoot">
+      <div class="small">Hver pointe kan spores til en konkret artikel nedenfor. Ingen opfundne tal.</div>
+      <a class="btn primary" href="index.html">Få briefingen i indbakken hver morgen</a>
     </div>
   </div>
 
@@ -182,8 +251,7 @@ body.show-an .an{display:flex}
   </div>
 
   <!-- KPIs -->
-  <div class="kpis relpos">
-    <span class="an" style="top:-10px;left:-10px" data-note="Fix 9 (P2): Alle 4 KPI'er handler nu om kunden selv. Konkurrent-kortene ('Forventede visninger / Nævnt sammen med') er flyttet til sekundært panel nederst.">9</span>
+  <div class="kpis">
     <div class="card kpi">
       <div class="label">Omtaler</div>
       <div class="num">12</div>
@@ -194,7 +262,7 @@ body.show-an .an{display:flex}
       <div class="num">7</div>
       <div class="ctx">Finans, Mobility Watch, Børsen m.fl.</div>
     </div>
-    <div class="card kpi relpos">
+    <div class="card kpi">
       <div class="label">Er omtalen positiv?</div>
       <div class="tonebar">
         <i style="width:33%;background:var(--green)"></i><i style="width:50%;background:var(--amber)"></i><i style="width:17%;background:var(--red)"></i>
@@ -204,7 +272,6 @@ body.show-an .an{display:flex}
         <span><span class="dot a"></span>Neutral 50%</span>
         <span><span class="dot r"></span>Negativ 17%</span>
       </div>
-      <span class="an" style="top:-8px;right:-8px" data-note="Fix 7 (P2): Én konsistent tone-model overalt — prik + ord, tre niveauer (grøn/orange/rød). Erstatter '50% positiv eller afbalanceret'. Overskrift som spørgsmål.">7</span>
     </div>
     <div class="card kpi">
       <div class="label">Største historie</div>
@@ -223,10 +290,9 @@ body.show-an .an{display:flex}
   </div>
 
   <!-- chart -->
-  <div class="panel relpos">
+  <div class="panel">
     <h2>Hvor meget bliver der skrevet om DSV?</h2>
     <div class="panelsub">Daglige omtaler i danske medier, seneste 7 dage — sammenlignet med gennemsnittet for C25-selskaber</div>
-    <span class="an" style="top:14px;right:14px" data-note="Fix 6+10 (P2): 'Omtale tendenser' → spørgsmåls-overskrift. Alle 7 dage vises (0-dage som flad markør i stedet for at mangle), og stiplet branchegennemsnit giver tallene kontekst.">6</span>
     <div class="chart">
       <div class="avg"><span>C25-gennemsnit</span></div>
       <div class="bar"><span class="v">2</span><i style="height:32%"></i></div>
@@ -240,13 +306,39 @@ body.show-an .an{display:flex}
     <div class="xlab">
       <span>3/6</span><span>4/6</span><span>5/6</span><span>6/6</span><span>7/6</span><span>8/6</span><span>9/6</span>
     </div>
-    <div class="filters relpos">
+    <div class="filters">
       <span class="fpill on">Alle</span>
       <span class="fpill"><span class="dot g"></span>Positiv</span>
       <span class="fpill"><span class="dot a"></span>Neutral</span>
       <span class="fpill"><span class="dot r"></span>Negativ</span>
-      <span class="an" style="top:-6px;right:-26px" data-note="Fix 7 (P2): Neutral-filter tilføjet, så filteret matcher tone-modellen alle andre steder.">7</span>
     </div>
+  </div>
+
+  <!-- spredningsvarsel -->
+  <div class="panel relpos">
+    <span class="an" style="top:14px;right:14px" data-note="Nyt modul 2: Spredningsvarsel. Research: 'Democratised predictive analytics for PR would be a game changer' (r/PublicRelations). Feltet vil være proaktivt, ikke reaktivt. Kan bygges på first_seen + total_sites fra v2 API'et, uden at love mere end mønstergenkendelse.">2</span>
+    <h2>Spreder historien sig? <span class="mbadge" style="margin-left:8px;vertical-align:3px">Spredning: stigende</span></h2>
+    <div class="panelsub">Neom-historien følges på tværs af medier. Mønstret afgør om den dør ud eller når de landsdækkende.</div>
+    <div class="momo">
+      <div class="mstep">
+        <div class="md">Tirsdag</div>
+        <div class="mn">1 <span>medie</span></div>
+        <div class="mm">Mobility Watch bringer den kritiske vinkel</div>
+      </div>
+      <div class="marrow">→</div>
+      <div class="mstep">
+        <div class="md">Onsdag</div>
+        <div class="mn">3 <span>medier</span></div>
+        <div class="mm">ShippingWatch og Finans citerer historien</div>
+      </div>
+      <div class="marrow">→</div>
+      <div class="mstep hot">
+        <div class="md">I dag</div>
+        <div class="mn">5 <span>medier</span></div>
+        <div class="mm">Børsen nævner vinklen i markedskommentaren</div>
+      </div>
+    </div>
+    <div class="mforecast"><span>🔭</span><div><b>Forventning:</b> Historier med dette mønster når typisk landsdækkende medier inden for 1-2 døgn. Vinduet for at påvirke vinklen er nu, ikke på fredag.</div></div>
   </div>
 
   <div class="cols">
@@ -256,7 +348,6 @@ body.show-an .an{display:flex}
         <span class="exlabel badge-ex">Eksempel — frigives efter verificering</span>
         <h2>Citater I må genbruge (§22)</h2>
         <div class="panelsub">Uddrag fra artikler hvor DSV er nævnt — lovlige at dele med korrekt kildeangivelse jf. ophavsretslovens §22</div>
-        <span class="an" style="top:14px;left:-10px" data-note="Fix 4 (P1): Dummy-citaterne er nu tydeligt mærket 'Eksempel' i stedet for at stå umarkeret under 'Du ser rigtige dækningsdata'-banneret. Blur + verificerings-gate er bevaret.">4</span>
         <div class="quote"><div class="qt">Selskabet har ifølge direktøren opnået en markant vækst i det seneste kvartal, drevet af stærk efterspørgsel fra både eksisterende og nye kunder.</div><div class="src">Børsen · Virksomheden styrker sin position på markedet</div></div>
         <div class="quote"><div class="qt">"Vi er meget tilfredse med udviklingen," udtaler CEO'en, og tilføjer at virksomheden forventer fortsat ekspansion på tre kernemarkeder.</div><div class="src">Finans · Ny strategi skal sikre fremtidig vækst</div></div>
         <div class="quote" style="border-left-color:var(--amber)"><div class="qt">Virksomheden nævnes som en af de centrale aktører i sektoren. Analytikere peger på øget konkurrence som en potentiel udfordring fremadrettet.</div><div class="src">Berlingske Business · Brancheanalyse: Konkurrencen skærpes</div></div>
@@ -273,18 +364,22 @@ body.show-an .an{display:flex}
       <!-- articles -->
       <div class="panel relpos">
         <h2>Seneste omtaler</h2>
-        <span class="an" style="top:14px;right:14px" data-note="Fix 1+8+11: Neom-historien er nu korrekt NEGATIV og ligger øverst (DSV-bårne historier først). Uforklarede ★-ratings fjernet; visninger i dansk talformat. Historier om andre selskaber er badget 'DSV nævnt'.">1</span>
+        <div class="panelsub">Hver tone-vurdering viser hvorfor. Er du uenig, retter du den med ét klik, og systemet lærer af det.</div>
+        <span class="an" style="top:14px;right:14px" data-note="Nyt modul 3: Forklarlig tone. Research: automatisk sentiment kaldes 'absolute garbage' og 'rarely correct' (Reddit + G2). Citatet der begrunder hver vurdering vises inline, så rigtigheden kan efterprøves. Ret-med-ét-klik adresserer ønsket om AI der lærer af feedback i stedet for Boolean-vedligehold.">3</span>
         <div class="art">
           <h3>DSV's Neom-eventyr mister mere fart efter nye saudiske nedskæringer</h3>
           <div class="meta"><span class="tone neg"><span class="dot r"></span>Negativ</span> Mobility Watch · 2 d. siden · 470 visninger</div>
+          <div class="why"><b>Derfor negativ:</b> "Neom-eventyr <mark>mister mere fart</mark> efter nye saudiske <mark>nedskæringer</mark>" · Vinklen handler om DSV's eget projekt.</div>
         </div>
         <div class="art">
           <h3>Markedsoversigt: Zealand Pharma fik delvis revanche efter kursderoute – renten stod stille</h3>
           <div class="meta"><span class="tone neu"><span class="dot a"></span>Neutral</span> Finans · 18 t. siden · 12.200 visninger <span class="mention">DSV nævnt</span></div>
+          <div class="why"><b>Derfor neutral:</b> DSV nævnes kun i kursoversigten, uden vurdering af selskabet.</div>
         </div>
         <div class="art">
           <h3>Aktieåbning: Novo trækker C25 ned trods pænt hop til Demant og Zealand Pharma-comeback</h3>
           <div class="meta"><span class="tone neg"><span class="dot r"></span>Negativ</span> Finans · 1 d. siden · 24.100 visninger <span class="mention">DSV nævnt</span></div>
+          <div class="why"><b>Derfor negativ:</b> "Novo <mark>trækker C25 ned</mark>" · DSV omtales kort som del af det faldende indeks, ikke som hovedhistorie.</div>
         </div>
         <div class="blurbox">
           <div class="fake">
@@ -302,31 +397,44 @@ body.show-an .an{display:flex}
       </div>
     </div>
 
-    <!-- compare (secondary) -->
-    <div class="panel compare relpos" style="margin-top:0">
-      <h2 style="font-size:15.5px">Sammenlign aktører</h2>
-      <div class="panelsub">Hvem bliver DSV nævnt sammen med?</div>
-      <span class="an" style="top:14px;right:-8px" data-note="Fix 9 (P2): Konkurrent-data er samlet i ét tydeligt mærket sekundært panel (DESIGN.md §6.1.5) i stedet for at fylde halvdelen af KPI-rækken. 'Forventede visninger sammen med'-labelen er droppet.">9</span>
-      <div class="row"><b>Novo Nordisk A/S</b><span class="sub"><span class="n">6 fælles omtaler</span><a href="#">Se fælles →</a></span></div>
-      <div class="row"><b>C25-indekset</b><span class="sub"><span class="n">6 fælles omtaler</span><a href="#">Se fælles →</a></span></div>
-      <div class="row"><b>Zealand Pharma</b><span class="sub"><span class="n">4 fælles omtaler</span><a href="#">Se fælles →</a></span></div>
+    <!-- right column: compare + AI answers -->
+    <div>
+      <div class="panel compare" style="margin-top:0">
+        <h2 style="font-size:15.5px">Sammenlign aktører</h2>
+        <div class="panelsub">Hvem bliver DSV nævnt sammen med?</div>
+        <div class="row"><b>Novo Nordisk A/S</b><span class="sub"><span class="n">6 fælles omtaler</span><a href="#">Se fælles →</a></span></div>
+        <div class="row"><b>C25-indekset</b><span class="sub"><span class="n">6 fælles omtaler</span><a href="#">Se fælles →</a></span></div>
+        <div class="row"><b>Zealand Pharma</b><span class="sub"><span class="n">4 fælles omtaler</span><a href="#">Se fælles →</a></span></div>
+      </div>
+
+      <!-- AI-svar -->
+      <div class="panel aians relpos">
+        <span class="an" style="top:14px;right:-8px" data-note="Nyt modul 4: AI-synlighed. Research: 67% af PR-folk tror LLM-synlighed bliver en kerne-metrik, 61% sporer eller planlægger at spore AI-omtale (Muck Rack 2025). Intet dansk værktøj viser det. Teaser-format: første linje synlig, resten bag signup.">4</span>
+        <h2 style="font-size:15.5px">Hvad svarer AI'erne om DSV? <span class="badge-new">Nyt</span></h2>
+        <div class="panelsub">ChatGPT, Gemini og Perplexity er blevet en del af jeres omdømme. Vi spørger dem dagligt.</div>
+        <div class="chat">
+          <div class="q">Er DSV's Neom-projekt i problemer?</div>
+          <div class="a">Flere danske medier beskriver, at DSV's Neom-engagement har mistet fremdrift efter <span class="blur">saudiske nedskæringer, og at forventningerne til projektet er justeret ned i takt med at ordrerne</span></div>
+        </div>
+        <div class="srcs"><span>ChatGPT</span><span>Gemini</span><span>Perplexity</span></div>
+        <a class="btn" style="display:block;margin-top:14px;text-align:center" href="index.html">Se hele AI-billedet</a>
+      </div>
     </div>
   </div>
 
   <!-- footer cta -->
-  <div class="footcta relpos">
+  <div class="footcta">
     <div class="txt">
-      <b>Følg din egen virksomhed</b>
+      <b>Få din egen morgenbriefing</b>
       <div class="small">30 dages historik · Ingen kontrakt · Klar på 2 minutter</div>
-      <span class="an" style="top:-8px;left:-10px" data-note="Fix 5 (P2): 'Opsæt din egen agent' → 'Følg din egen virksomhed'.">5</span>
     </div>
     <a class="btn primary" href="index.html">Overvåg gratis</a>
   </div>
 
 </div>
 
-<button class="annot-toggle" onclick="document.body.classList.toggle('show-an');this.querySelector('span').textContent=document.body.classList.contains('show-an')?'Skjul ændringer':'Vis ændringer'">
-  <span>Vis ændringer</span> <span style="background:#7c3aed;color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800">i</span>
+<button class="annot-toggle" onclick="document.body.classList.toggle('show-an');this.querySelector('span').textContent=document.body.classList.contains('show-an')?'Skjul noter':'Hvad er nyt?'">
+  <span>Hvad er nyt?</span> <span style="background:#7c3aed;color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800">i</span>
 </button>
 
 </body>
