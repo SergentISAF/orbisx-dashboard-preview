@@ -1,0 +1,100 @@
+name: Deploy Pages (main + branch-previews)
+
+# Deployer main i roden og alle andre branches under preview/<branch>/,
+# plus en auto-genereret variant-oversigt på preview/index.html.
+# Kører ved push til enhver branch og ved branch-sletning.
+
+on:
+  push:
+  delete:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Saml site (main + branch-previews)
+        run: |
+          set -euo pipefail
+          mkdir -p _site/preview
+
+          # main i roden
+          git archive main | tar -x -C _site
+
+          # hver anden branch under preview/<navn>/
+          rows=""
+          for ref in $(git branch -r --format='%(refname:short)' | grep -v -E 'origin/(main|HEAD)$'); do
+            name="${ref#origin/}"
+            mkdir -p "_site/preview/$name"
+            git archive "$ref" | tar -x -C "_site/preview/$name"
+            subject=$(git log -1 --format='%s' "$ref")
+            date=$(git log -1 --format='%cs' "$ref")
+            rows="$rows<a class=\"variant\" href=\"./$name/\"><strong>$name</strong><span>$subject</span><time>$date</time></a>"
+          done
+
+          if [ -z "$rows" ]; then
+            rows='<p class="empty">Ingen aktive varianter lige nu — alt nyt ligger i hovedudgaven.</p>'
+          fi
+
+          # variant-oversigt
+          cat > _site/preview/index.html <<HTML
+          <!doctype html>
+          <html lang="da">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>OrbisX dashboard — design-varianter</title>
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+            <style>
+              :root { --navy:#020617; --blue:#2563eb; --bg:#f6f7fb; --card:#fff; --radius:16px; }
+              * { box-sizing:border-box; margin:0; }
+              body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(--navy); padding:48px 24px; }
+              main { max-width:680px; margin:0 auto; }
+              h1 { font-size:28px; font-weight:800; margin-bottom:8px; }
+              p.lead { color:#475569; margin-bottom:32px; }
+              a.cta { display:inline-block; margin-bottom:32px; color:var(--blue); font-weight:600; text-decoration:none; }
+              .variant { display:flex; flex-direction:column; gap:4px; background:var(--card); border-radius:var(--radius);
+                         padding:20px 24px; margin-bottom:16px; text-decoration:none; color:inherit;
+                         box-shadow:0 1px 3px rgba(2,6,23,.08); transition:box-shadow .15s; }
+              .variant:hover { box-shadow:0 4px 16px rgba(2,6,23,.14); }
+              .variant strong { font-size:17px; }
+              .variant span { color:#475569; font-size:14px; }
+              .variant time { color:#94a3b8; font-size:13px; }
+              .empty { background:var(--card); border-radius:var(--radius); padding:24px; color:#475569; }
+            </style>
+          </head>
+          <body>
+            <main>
+              <h1>Design-varianter</h1>
+              <p class="lead">Hver variant er et selvstændigt bud på dashboardet. Klik ind, kig rundt, og brug feedback-knappen nederst til højre på skærmene.</p>
+              <a class="cta" href="../">← Til hovedudgaven</a>
+              $rows
+            </main>
+          </body>
+          </html>
+          HTML
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
