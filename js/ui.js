@@ -23,6 +23,11 @@
       box-shadow:var(--shadow-lg); z-index:120; min-width:200px; overflow:hidden; }
     .ctrl-menu div { padding:10px 14px; font-size:13.5px; cursor:pointer; }
     .ctrl-menu div:hover { background:var(--bg); }
+    .kpi-drill { grid-column:1 / -1; padding:6px 8px; }
+    .kpi-drill a { display:flex; justify-content:space-between; align-items:center; gap:12px;
+      padding:11px 12px; border-radius:10px; text-decoration:none; color:var(--ink); font-size:13.5px; }
+    .kpi-drill a:hover { background:var(--bg); }
+    .kpi-drill a b { color:var(--blue); font-size:13px; white-space:nowrap; }
   `;
   document.head.appendChild(Object.assign(document.createElement('style'), { textContent: css }));
 
@@ -52,6 +57,7 @@
         <div class="pubs">
           <p class="muted" style="font-size:12.5px;padding:6px 0 4px">${tone ? `Tone: ${esc(tone)} · ` : ''}Dækning pr. medie${extra ? ` · ${extra} flere medier ikke vist i prototypen` : ''}</p>
           ${rows || '<p class="muted">Ingen medier at vise.</p>'}
+          <p style="padding:10px 0 4px"><a href="story.html?t=${encodeURIComponent(title)}" style="color:var(--blue);font-weight:600;font-size:13.5px;text-decoration:none">Åbn hele historie-siden →</a></p>
         </div>
       </div>`;
     document.body.appendChild(overlay);
@@ -71,6 +77,36 @@
     // Nyt emne (knap + flise)
     document.querySelectorAll('.add-monitor, .section-head .btn-primary').forEach(el => {
       el.addEventListener('click', e => { e.preventDefault(); location.href = 'new-topic.html'; });
+    });
+
+    // KPI "Nye artikler": fold fordelingen pr. emne ud (læser fra emne-kortene,
+    // så det virker både med demo-tal og live data)
+    const kpis = document.querySelectorAll('.kpi');
+    const newKpi = kpis[0];
+    newKpi.classList.add('clickable');
+    newKpi.addEventListener('click', e => {
+      if (e.target.classList.contains('info')) return;
+      const existing = document.querySelector('.kpi-drill');
+      if (existing) { existing.remove(); return; }
+      const rows = [...document.querySelectorAll('.monitor')].map(card => {
+        const n = parseInt(card.querySelector('.pill.red')?.textContent, 10);
+        return n ? { t: card.querySelector('h3').textContent, n } : null;
+      }).filter(Boolean).sort((a, b) => b.n - a.n);
+      const panel = document.createElement('div');
+      panel.className = 'kpi-drill card';
+      panel.innerHTML = rows.length
+        ? rows.map(r => `<a href="cluster.html?t=${encodeURIComponent(r.t)}"><span>${esc(r.t)}</span><b>${r.n} nye →</b></a>`).join('')
+        : '<p class="muted" style="padding:12px 14px">Ingen nye artikler lige nu.</p>';
+      newKpi.after(panel);
+    });
+
+    // KPI "Mest omtalte emne" → historie-siden
+    const topKpi = kpis[3];
+    topKpi.classList.add('clickable');
+    topKpi.addEventListener('click', e => {
+      if (e.target.classList.contains('info')) return;
+      const t = topKpi.querySelector('.val').textContent.trim();
+      location.href = `story.html?t=${encodeURIComponent(t)}`;
     });
   }
 

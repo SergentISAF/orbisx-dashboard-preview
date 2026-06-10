@@ -130,7 +130,7 @@
       card.className = 'monitor';
       card.innerHTML = `
         <div class="top"><h3>${esc(c.title)}</h3>
-          <span class="pill ${fresh ? 'red' : 'gray'}">${fresh ? `${c.new_articles} ny${c.new_articles > 1 ? 'e' : ''}` : 'overvåget'}</span></div>
+          <span class="pill ${fresh ? 'red' : 'gray'}">${fresh ? `${c.new_articles} ny${c.new_articles > 1 ? 'e' : ''}` : 'ingen nye'}</span></div>
         <div class="meta">${TYPE_LABEL[c.cluster_type] || 'Emne'} · sidst aktivitet ${esc(c.cluster_last_seen)}</div>
         <div class="foot"><div class="n">${c.total_cluster_articles ?? 0} <span>artikler</span></div>
           <span class="dot ${fresh ? 'amber' : 'green'}"></span></div>`;
@@ -211,10 +211,38 @@
     if (!results.length) list.innerHTML = '<p class="muted">Ingen historier i emnet endnu.</p>';
   }
 
+  /* ---------- Historie-detalje (story.html?id=<thread_id>) ---------- */
+  async function loadHistorie() {
+    const threadId = new URLSearchParams(location.search).get('id');
+    if (!threadId) return; // demo-visning uden id
+    const data = await window.OrbisAPI.getThreadPublications(threadId);
+    const pubs = data.publications || [];
+    document.getElementById('siteCount').textContent = `${data.total_sites ?? '?'} medier`;
+    const avail = data.availability_summary || {};
+    document.getElementById('reach').textContent =
+      `${data.total_publications ?? pubs.length} versioner · ${avail.free ?? 0} gratis, ${avail.paid ?? 0} betalt`;
+    markDemo(document.getElementById('toneBadge'));
+    markDemo(document.getElementById('timeBadge'));
+    const list = document.getElementById('pubs');
+    list.innerHTML = '';
+    for (const p of pubs.slice(0, 40)) {
+      const el = document.createElement('div');
+      el.className = 'pub';
+      el.innerHTML = `
+        <b class="site">${esc(p.site_name)}</b>
+        <span class="t">${esc(p.frontpage_title || p.title || '')}</span>
+        <span class="badges">${p.currently_on_frontpage ? '<span class="pill blue">på forsiden</span>' : ''}
+          <span class="pill ${p.availability === 'paid' ? 'red' : 'green'}">${p.availability === 'paid' ? 'betalt' : 'gratis'}</span></span>`;
+      if (p.url) { el.style.cursor = 'pointer'; el.addEventListener('click', () => window.open(p.url, '_blank', 'noopener')); }
+      list.appendChild(el);
+    }
+  }
+
   /* ---------- Sidevælger: kobl flere skærme på her, samme mønster ---------- */
   const PAGE_LOADERS = {
     'index.html': loadOverblik,
     'cluster.html': loadEmne,
+    'story.html': loadHistorie,
     // 'insights.html': loadAnalyse,   ← platformMetadata + getClusterArticles
     // 'news.html': loadNyheder,       ← getTrending(3) + getThreadPublications
     // 'comm.html': loadRapporter,     ← afventer job_specs-endpoint fra Mikkel

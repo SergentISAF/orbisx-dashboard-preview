@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panorama nyheder · 14 danske medieomtaler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#020617; --blue:#2563eb; --sky:#60a5fa;
+  --green:#16a34a; --amber:#d97706; --red:#dc2626;
+  --bg:#f6f7fb; --card:#fff; --ink:#0f172a; --muted:#64748b; --line:#e2e8f0;
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5;padding-bottom:84px}
+a{color:var(--blue);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* topbar */
+.topbar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.topbar .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:17px}
+.logo .ring{width:22px;height:22px;border-radius:50%;border:3px solid var(--sky);border-top-color:var(--navy)}
+.topnote{color:var(--muted);font-size:13.5px;flex:1;text-align:center}
+.btn{display:inline-block;border-radius:10px;padding:9px 16px;font-weight:600;font-size:14px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 1px 2px rgba(37,99,235,.3)}
+.btn.primary:hover{background:#1d4ed8}
+
+/* hero */
+.hero{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 32px;margin-top:24px;box-shadow:0 1px 3px rgba(2,6,23,.05)}
+.hero h1{font-size:26px;font-weight:800;letter-spacing:-.02em}
+.hero .sub{display:flex;align-items:center;gap:10px;margin-top:6px;color:var(--muted);flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#f8fafc;border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:600;color:#475569}
+.hero .lead{margin-top:14px;font-size:15.5px;color:var(--ink)}
+.hero .lead b{font-weight:700}
+.hero .lead .ctx{color:var(--muted);font-weight:400}
+.live{display:inline-flex;align-items:center;gap:6px;border:1px solid #bbf7d0;background:#f0fdf4;color:#166534;border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:700}
+.live .blink{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* insight strip */
+.insight{display:flex;gap:14px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:var(--radius);padding:18px 24px;margin-top:20px}
+.insight .bulb{font-size:20px;flex-shrink:0;margin-top:1px}
+.insight b{font-size:15px}
+.insight p{font-size:13.5px;color:#78716c;margin-top:2px}
+
+/* period toggle */
+.toggle{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px;margin:20px 0 0;gap:2px}
+.toggle button{border:0;background:transparent;border-radius:9px;padding:7px 16px;font:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.toggle button.on{background:var(--navy);color:#fff}
+
+/* KPI row */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 1px 3px rgba(2,6,23,.05);transition:transform .15s, box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(2,6,23,.08)}
+.kpi .label{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.kpi .num{font-size:30px;font-weight:800;margin-top:6px;letter-spacing:-.02em}
+.kpi .ctx{font-size:13px;color:var(--muted);margin-top:4px}
+.kpi .ctx .up{color:var(--green);font-weight:600}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:1px}
+.dot.g{background:var(--green)}.dot.a{background:var(--amber)}.dot.r{background:var(--red)}
+.tonebar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin-top:12px}
+.tonebar i{display:block;height:100%}
+.tonelegend{display:flex;gap:12px;margin-top:10px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+.kpi .story{font-size:14px;font-weight:600;line-height:1.35;margin-top:8px}
+.kpi .story-meta{font-size:12.5px;color:var(--muted);margin-top:6px}
+
+/* chart */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-top:20px;box-shadow:0 1px 3px rgba(2,6,23,.05)}
+.panel h2{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.panel .panelsub{color:var(--muted);font-size:13.5px;margin-top:3px}
+.chart{display:flex;align-items:flex-end;gap:14px;height:180px;margin-top:24px;padding-bottom:6px;border-bottom:1px solid var(--line);position:relative}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%}
+.bar i{display:block;width:70%;max-width:54px;background:var(--blue);border-radius:6px 6px 2px 2px}
+.bar.zero i{height:3px;background:#cbd5e1;border-radius:2px}
+.bar .v{font-size:12px;font-weight:700;color:var(--ink)}
+.bar.zero .v{color:var(--muted);font-weight:500}
+.xlab{display:flex;gap:14px;margin-top:8px}
+.xlab span{flex:1;text-align:center;font-size:12px;color:var(--muted)}
+.filters{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.fpill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 14px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}
+.fpill.on{background:var(--navy);border-color:var(--navy);color:#fff}
+
+/* big mid-page CTA */
+.bigcta{background:linear-gradient(135deg,var(--navy),#1e3a8a);color:#fff;border-radius:var(--radius);padding:36px 32px;margin-top:20px;text-align:center;box-shadow:0 8px 24px rgba(2,6,23,.18)}
+.bigcta h2{font-size:23px;font-weight:800;letter-spacing:-.02em}
+.bigcta p{color:#bfdbfe;font-size:14.5px;margin-top:8px;max-width:520px;margin-left:auto;margin-right:auto}
+.bigcta .points{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.bigcta .points span{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:600}
+.bigcta .btn{margin-top:20px;padding:12px 26px;font-size:15px;background:#fff;color:var(--navy);border-color:#fff}
+.bigcta .btn:hover{background:#e8edff}
+.bigcta .tiny{display:block;margin-top:10px;font-size:12.5px;color:#93b4f5}
+
+/* two-col: articles + benefits */
+.cols{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start;margin-top:20px}
+
+/* benefits panel */
+.benefits .row{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;align-items:flex-start}
+.benefits .row:last-of-type{border-bottom:0}
+.benefits .chk{color:var(--green);font-weight:800;flex-shrink:0}
+.benefits .row b{font-weight:600}
+.benefits .row p{font-size:12.5px;color:var(--muted);margin-top:1px}
+.benefits .btn{width:100%;margin-top:14px;text-align:center}
+
+/* articles */
+.art{display:flex;flex-direction:column;gap:6px;padding:16px 0;border-bottom:1px solid var(--line)}
+.art:last-of-type{border-bottom:0}
+.art h3{font-size:15.5px;font-weight:600;line-height:1.4}
+.art .meta{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.tone{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700}
+.tone.neg{background:#fef2f2;color:var(--red)}
+.tone.pos{background:#f0fdf4;color:var(--green)}
+.tone.neu{background:#fffbeb;color:var(--amber)}
+.tone .dot{margin-right:0}
+.mention{background:#eff6ff;border:1px solid #dbeafe;color:var(--blue);border-radius:999px;font-size:11.5px;font-weight:700;padding:2px 9px}
+.blurbox{position:relative;margin-top:16px;border-radius:12px;overflow:hidden}
+.blurbox .fake{filter:blur(5px);user-select:none;padding:6px 4px;opacity:.8}
+.blurbox .overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:linear-gradient(180deg,rgba(246,247,251,.2),rgba(246,247,251,.95));text-align:center;padding:20px}
+.blurbox .overlay b{font-size:14.5px}
+.blurbox .overlay p{font-size:13px;color:var(--muted);max-width:420px}
+
+/* testimonial */
+.testimonial{background:#eef4ff;border:1px solid #dbe7ff;border-radius:var(--radius);padding:28px 32px;margin-top:20px}
+.testimonial .mark{font-size:34px;font-weight:800;color:var(--blue);line-height:1}
+.testimonial blockquote{font-size:16.5px;font-weight:500;line-height:1.6;color:var(--ink);margin-top:6px}
+.testimonial .who{display:flex;align-items:center;gap:12px;margin-top:16px}
+.testimonial .ava{width:42px;height:42px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.testimonial .who b{display:block;font-size:14px}
+.testimonial .who span{font-size:13px;color:var(--muted)}
+
+/* footer cta */
+.footcta{display:flex;align-items:center;gap:16px;background:var(--navy);color:#fff;border-radius:var(--radius);padding:22px 28px;margin:24px 0 48px}
+.footcta .txt{flex:1}
+.footcta b{font-size:16px}
+.footcta .small{color:#94a3b8;font-size:13px;margin-top:2px}
+
+/* sticky CTA bar */
+.stickybar{position:fixed;left:0;right:0;bottom:0;z-index:90;background:rgba(2,6,23,.97);color:#fff;box-shadow:0 -6px 20px rgba(2,6,23,.25)}
+.stickybar .wrap{display:flex;align-items:center;gap:16px;padding-top:13px;padding-bottom:13px}
+.stickybar .txt{flex:1}
+.stickybar b{font-size:14.5px}
+.stickybar .small{color:#94a3b8;font-size:12.5px}
+.stickybar .btn.primary{white-space:nowrap}
+
+@media (max-width:900px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .cols{grid-template-columns:1fr}
+  .topnote{display:none}
+}
+@media (max-width:560px){
+  body{padding-bottom:104px}
+  .kpis{grid-template-columns:1fr}
+  .footcta{flex-direction:column;align-items:flex-start}
+  .topbar .wrap{height:auto;padding-top:10px;padding-bottom:10px;flex-wrap:wrap;justify-content:space-between}
+  .topbar .btn:not(.primary){display:none}
+  .topbar .pill{display:none}
+  .topbar .btn.primary{padding:8px 12px;font-size:13px}
+  .stickybar .small{display:none}
+  .stickybar b{font-size:13.5px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="logo"><span class="ring"></span> Orbis</div>
+    <div class="topnote">Du ser rigtige dækningsdata for Panorama. Følg din egen virksomhed på 2 minutter.</div>
+    <span class="pill">🇩🇰 DA</span>
+    <a class="btn" href="index.html">Log på</a>
+    <a class="btn primary" href="index.html">Overvåg min virksomhed gratis</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- hero -->
+  <div class="hero">
+    <h1>Panorama</h1>
+    <div class="sub">Nyhedsovervågning for Panorama <span class="pill">🇩🇰 Danske medier</span> <span class="live"><span class="blink"></span>Opdateret for 26 min. siden</span></div>
+    <div class="lead">
+      <b>4 omtaler de sidste 7 dage</b> <span class="ctx">· 1 flere end ugen før · 14 omtaler de seneste 30 dage</span>
+    </div>
+  </div>
+
+  <!-- insight: nævnt oftere end I tror -->
+  <div class="insight">
+    <span class="bulb">💡</span>
+    <div>
+      <b>I bliver nævnt oftere end I tror.</b>
+      <p>14 omtaler på 30 dage, fordelt på 5 forskellige medier. De fleste mindre virksomheder opdager kun en brøkdel af deres omtaler selv.</p>
+    </div>
+  </div>
+
+  <div class="toggle">
+    <button class="on">7 dage</button><button>30 dage</button><button>3 måneder</button>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpis">
+    <div class="card kpi">
+      <div class="label">Omtaler</div>
+      <div class="num">4</div>
+      <div class="ctx"><span class="up">▲ 1</span> mod ugen før (3)</div>
+    </div>
+    <div class="card kpi">
+      <div class="label">Medier der dækker</div>
+      <div class="num">3</div>
+      <div class="ctx">Lokalavisen, Erhverv+ m.fl.</div>
+    </div>
+    <div class="card kpi">
+      <div class="label">Er omtalen positiv?</div>
+      <div class="tonebar">
+        <i style="width:50%;background:var(--green)"></i><i style="width:50%;background:var(--amber)"></i>
+      </div>
+      <div class="tonelegend">
+        <span><span class="dot g"></span>Positiv 50%</span>
+        <span><span class="dot a"></span>Neutral 50%</span>
+        <span><span class="dot r"></span>Negativ 0%</span>
+      </div>
+    </div>
+    <div class="card kpi">
+      <div class="label">Største historie</div>
+      <div class="story">Læserne anbefaler: Her er ugens lokale favoritter</div>
+      <div class="story-meta"><span class="dot g"></span>Positiv · Lokalavisen · 2 d. siden</div>
+    </div>
+  </div>
+
+  <!-- chart -->
+  <div class="panel">
+    <h2>Hvor meget bliver der skrevet om Panorama?</h2>
+    <div class="panelsub">Daglige omtaler i danske medier, seneste 7 dage</div>
+    <div class="chart">
+      <div class="bar"><span class="v">1</span><i style="height:32%"></i></div>
+      <div class="bar zero"><span class="v">0</span><i></i></div>
+      <div class="bar"><span class="v">1</span><i style="height:32%"></i></div>
+      <div class="bar zero"><span class="v">0</span><i></i></div>
+      <div class="bar"><span class="v">2</span><i style="height:64%"></i></div>
+      <div class="bar zero"><span class="v">0</span><i></i></div>
+      <div class="bar zero"><span class="v">0</span><i></i></div>
+    </div>
+    <div class="xlab">
+      <span>4/6</span><span>5/6</span><span>6/6</span><span>7/6</span><span>8/6</span><span>9/6</span><span>10/6</span>
+    </div>
+    <div class="filters">
+      <span class="fpill on">Alle</span>
+      <span class="fpill"><span class="dot g"></span>Positiv</span>
+      <span class="fpill"><span class="dot a"></span>Neutral</span>
+      <span class="fpill"><span class="dot r"></span>Negativ</span>
+    </div>
+  </div>
+
+  <!-- big mid-page CTA -->
+  <div class="bigcta">
+    <h2>Vil du have det her for jeres egen virksomhed?</h2>
+    <p>Skriv jeres virksomhedsnavn, så samler vi al omtale i danske medier for jer. Også den I aldrig selv ville have fundet.</p>
+    <div class="points">
+      <span>⏱️ 2 minutter</span>
+      <span>💳 Intet kreditkort</span>
+      <span>📚 30 dages historik</span>
+    </div>
+    <a class="btn" href="index.html">Overvåg min virksomhed gratis</a>
+    <span class="tiny">Gratis at komme i gang · Ingen kontrakt · Opsig når som helst</span>
+  </div>
+
+  <div class="cols">
+    <div>
+      <!-- articles -->
+      <div class="panel" style="margin-top:0">
+        <h2>Seneste omtaler</h2>
+        <div class="panelsub">Få men værdifulde. Hver af disse er en kunde eller samarbejdspartner, der måske læser med.</div>
+        <div class="art">
+          <h3>Læserne anbefaler: Her er ugens lokale favoritter</h3>
+          <div class="meta"><span class="tone pos"><span class="dot g"></span>Positiv</span> Lokalavisen · 2 d. siden · 1.700 visninger <span class="mention">Panorama nævnt</span></div>
+        </div>
+        <div class="art">
+          <h3>Erhvervsoverblik: Sådan klarer kommunens mindre virksomheder foråret</h3>
+          <div class="meta"><span class="tone neu"><span class="dot a"></span>Neutral</span> Erhverv+ · 2 d. siden · 940 visninger <span class="mention">Panorama nævnt</span></div>
+        </div>
+        <div class="art">
+          <h3>Lokalt samarbejde skal trække flere besøgende til bymidten</h3>
+          <div class="meta"><span class="tone pos"><span class="dot g"></span>Positiv</span> Ugeavisen · 4 d. siden · 620 visninger <span class="mention">Panorama nævnt</span></div>
+        </div>
+        <div class="blurbox">
+          <div class="fake">
+            <div class="art"><h3>Guide: Her er stederne de lokale selv vælger til</h3><div class="meta">Lokalavisen · 6 d. siden</div></div>
+          </div>
+          <div class="overlay">
+            <b>+1 flere omtale denne uge · +10 i historikken</b>
+            <p>Følger du virksomheden, fanger vi al ny omtale i realtid, og du får besked med det samme.</p>
+            <a class="btn primary" href="index.html">Overvåg min virksomhed gratis</a>
+            <span style="font-size:12px;color:var(--muted)">Gratis · Intet kreditkort kræves</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- benefits (secondary) -->
+    <div class="panel benefits" style="margin-top:0">
+      <h2 style="font-size:15.5px">Det får I fra dag ét</h2>
+      <div class="panelsub">Alt er klar, så snart I opretter jer</div>
+      <div class="row"><span class="chk">✓</span><div><b>Besked når I bliver nævnt</b><p>Direkte i indbakken, samme dag</p></div></div>
+      <div class="row"><span class="chk">✓</span><div><b>30 dages historik</b><p>Se hvad I allerede er gået glip af</p></div></div>
+      <div class="row"><span class="chk">✓</span><div><b>Tonen i hver omtale</b><p>Positiv, neutral eller negativ</p></div></div>
+      <div class="row"><span class="chk">✓</span><div><b>Citater I må genbruge</b><p>Klar til jeres egne kanaler</p></div></div>
+      <a class="btn primary" href="index.html">Kom i gang gratis</a>
+    </div>
+  </div>
+
+  <!-- testimonial -->
+  <div class="testimonial">
+    <div class="mark">"</div>
+    <blockquote>Vi har en travl hverdag, så vi har ikke tid til at holde øje med vores brand i medierne. Vi tjekker orbis 3-4 gange i måneden, og det er trygt at vide, at agenterne har samlet det hele sammen til os – og vi bliver faktisk nævnt oftere og på andre medier, end vi lige havde regnet med. Det har frigivet dyrebar tid, at vi ikke skal surfe rundt for at holde os opdateret.</blockquote>
+    <div class="who">
+      <span class="ava">CH</span>
+      <div><b>Camilla Panorama Højlund</b><span>Medejer, Panorama</span></div>
+    </div>
+  </div>
+
+  <!-- footer cta -->
+  <div class="footcta">
+    <div class="txt">
+      <b>Følg din egen virksomhed</b>
+      <div class="small">30 dages historik · Ingen kontrakt · Klar på 2 minutter</div>
+    </div>
+    <a class="btn primary" href="index.html">Overvåg gratis</a>
+  </div>
+
+</div>
+
+<!-- sticky CTA bar -->
+<div class="stickybar">
+  <div class="wrap">
+    <div class="txt">
+      <b>Bliver I også nævnt uden at vide det?</b>
+      <div class="small">2 minutter · Intet kreditkort · 30 dages historik</div>
+    </div>
+    <a class="btn primary" href="index.html">Overvåg min virksomhed gratis</a>
+  </div>
+</div>
+
+</body>
+</html>

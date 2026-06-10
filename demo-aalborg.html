@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aalborg Håndbold nyheder · 38 danske medieomtaler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#020617; --blue:#2563eb; --sky:#60a5fa;
+  --green:#16a34a; --amber:#d97706; --red:#dc2626;
+  --bg:#f6f7fb; --card:#fff; --ink:#0f172a; --muted:#64748b; --line:#e2e8f0;
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5}
+a{color:var(--blue);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* topbar */
+.topbar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.topbar .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:17px}
+.logo .ring{width:22px;height:22px;border-radius:50%;border:3px solid var(--sky);border-top-color:var(--navy)}
+.topnote{color:var(--muted);font-size:13.5px;flex:1;text-align:center}
+.btn{display:inline-block;border-radius:10px;padding:9px 16px;font-weight:600;font-size:14px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 1px 2px rgba(37,99,235,.3)}
+.btn.primary:hover{background:#1d4ed8}
+
+/* hero */
+.hero{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 32px;margin-top:24px;box-shadow:0 1px 3px rgba(2,6,23,.05)}
+.hero h1{font-size:26px;font-weight:800;letter-spacing:-.02em}
+.hero .sub{display:flex;align-items:center;gap:10px;margin-top:6px;color:var(--muted);flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#f8fafc;border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:600;color:#475569}
+.hero .lead{margin-top:14px;font-size:15.5px;color:var(--ink)}
+.hero .lead b{font-weight:700}
+.hero .lead .ctx{color:var(--muted);font-weight:400}
+.live{display:inline-flex;align-items:center;gap:6px;border:1px solid #bbf7d0;background:#f0fdf4;color:#166534;border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:700}
+.live .blink{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* "Sådan læser du siden"-strip */
+.howto{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin-top:20px;box-shadow:0 1px 3px rgba(2,6,23,.05)}
+.howto .ht-head{font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.howto .ht-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
+.ht-item{display:flex;gap:12px;align-items:flex-start}
+.ht-item .ico{width:36px;height:36px;border-radius:10px;background:#eef4ff;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.ht-item b{font-size:14px;display:block}
+.ht-item p{font-size:13px;color:var(--muted);margin-top:2px}
+
+/* sektions-forklaringer */
+.explain{font-size:13px;color:var(--muted);margin:14px 2px 0;display:flex;gap:7px;align-items:flex-start}
+.explain .i{flex-shrink:0;width:17px;height:17px;border-radius:50%;background:#eef4ff;color:var(--blue);font-size:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;margin-top:2px}
+
+/* period toggle */
+.toggle{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px;margin:20px 0 0;gap:2px}
+.toggle button{border:0;background:transparent;border-radius:9px;padding:7px 16px;font:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.toggle button.on{background:var(--navy);color:#fff}
+
+/* KPI row */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 1px 3px rgba(2,6,23,.05);transition:transform .15s, box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(2,6,23,.08)}
+.kpi .label{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.kpi .num{font-size:30px;font-weight:800;margin-top:6px;letter-spacing:-.02em}
+.kpi .ctx{font-size:13px;color:var(--muted);margin-top:4px}
+.kpi .ctx .up{color:var(--green);font-weight:600}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:1px}
+.dot.g{background:var(--green)}.dot.a{background:var(--amber)}.dot.r{background:var(--red)}
+.tonebar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin-top:12px}
+.tonebar i{display:block;height:100%}
+.tonelegend{display:flex;gap:12px;margin-top:10px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+.kpi .story{font-size:14px;font-weight:600;line-height:1.35;margin-top:8px}
+.kpi .story-meta{font-size:12.5px;color:var(--muted);margin-top:6px}
+
+/* CTA strip */
+.cta-strip{display:flex;align-items:center;gap:16px;background:#eef4ff;border:1px solid #dbe7ff;border-radius:var(--radius);padding:18px 24px;margin-top:20px}
+.cta-strip .txt{flex:1}
+.cta-strip b{font-size:15.5px}
+.cta-strip .small{color:var(--muted);font-size:13px;margin-top:2px}
+
+/* chart */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-top:20px;box-shadow:0 1px 3px rgba(2,6,23,.05)}
+.panel h2{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.panel .panelsub{color:var(--muted);font-size:13.5px;margin-top:3px}
+.chart{display:flex;align-items:flex-end;gap:14px;height:180px;margin-top:24px;padding-bottom:6px;border-bottom:1px solid var(--line);position:relative}
+.chart .avg{position:absolute;left:0;right:0;bottom:calc(6px + 56px);border-top:2px dashed #cbd5e1}
+.chart .avg span{position:absolute;right:0;top:-20px;font-size:11.5px;color:var(--muted);background:#fff;padding:0 4px}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%}
+.bar i{display:block;width:70%;max-width:54px;background:var(--blue);border-radius:6px 6px 2px 2px}
+.bar.zero i{height:3px;background:#cbd5e1;border-radius:2px}
+.bar .v{font-size:12px;font-weight:700;color:var(--ink)}
+.bar.zero .v{color:var(--muted);font-weight:500}
+.xlab{display:flex;gap:14px;margin-top:8px}
+.xlab span{flex:1;text-align:center;font-size:12px;color:var(--muted)}
+.filters{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.fpill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 14px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}
+.fpill.on{background:var(--navy);border-color:var(--navy);color:#fff}
+
+/* two-col: quotes + compare */
+.cols{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start;margin-top:20px}
+
+/* quotes */
+.quote{border:1px solid var(--line);border-left:4px solid var(--green);border-radius:12px;padding:16px 18px;margin-top:14px;position:relative}
+.quote .qt{filter:blur(5px);user-select:none;color:#334155;font-size:14.5px}
+.quote .src{margin-top:10px;font-size:12.5px;color:var(--muted);filter:blur(4px);user-select:none}
+.gate{border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 12px 32px rgba(2,6,23,.12);padding:24px;max-width:420px;margin:-150px auto 10px;position:relative;text-align:center}
+.gate .lock{width:38px;height:38px;border-radius:50%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:16px}
+.gate h3{font-size:15.5px;font-weight:700}
+.gate p{font-size:13px;color:var(--muted);margin-top:8px}
+.gate .btn{width:100%;margin-top:12px}
+.gate .btn.dark{background:var(--navy);color:#fff;border-color:var(--navy)}
+.exlabel{position:absolute;top:10px;right:12px}
+.badge-ex{background:#fef3c7;border:1px solid #fde68a;color:#92400e;border-radius:999px;font-size:11.5px;font-weight:700;padding:2px 9px}
+
+/* compare panel */
+.compare .row{padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.compare .row:last-child{border-bottom:0}
+.compare .row b{display:block;font-weight:600;color:var(--ink)}
+.compare .row .sub{display:flex;align-items:center;gap:10px;margin-top:4px}
+.compare .n{font-size:12.5px;color:var(--muted);background:#f1f5f9;border-radius:999px;padding:2px 9px;font-weight:600;white-space:nowrap}
+.compare a{font-size:12.5px;white-space:nowrap}
+
+/* articles */
+.art{display:flex;flex-direction:column;gap:6px;padding:16px 0;border-bottom:1px solid var(--line)}
+.art:last-of-type{border-bottom:0}
+.art h3{font-size:15.5px;font-weight:600;line-height:1.4}
+.art .meta{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.tone{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700}
+.tone.neg{background:#fef2f2;color:var(--red)}
+.tone.pos{background:#f0fdf4;color:var(--green)}
+.tone.neu{background:#fffbeb;color:var(--amber)}
+.tone .dot{margin-right:0}
+.mention{background:#eff6ff;border:1px solid #dbeafe;color:var(--blue);border-radius:999px;font-size:11.5px;font-weight:700;padding:2px 9px}
+.blurbox{position:relative;margin-top:16px;border-radius:12px;overflow:hidden}
+.blurbox .fake{filter:blur(5px);user-select:none;padding:6px 4px;opacity:.8}
+.blurbox .overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:linear-gradient(180deg,rgba(246,247,251,.2),rgba(246,247,251,.95));text-align:center;padding:20px}
+.blurbox .overlay b{font-size:14.5px}
+.blurbox .overlay p{font-size:13px;color:var(--muted);max-width:420px}
+
+/* testimonial */
+.testimonial{background:#eef4ff;border:1px solid #dbe7ff;border-radius:var(--radius);padding:28px 32px;margin-top:20px}
+.testimonial .mark{font-size:34px;font-weight:800;color:var(--blue);line-height:1}
+.testimonial blockquote{font-size:16.5px;font-weight:500;line-height:1.6;color:var(--ink);margin-top:6px}
+.testimonial .who{display:flex;align-items:center;gap:12px;margin-top:16px}
+.testimonial .ava{width:42px;height:42px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.testimonial .who b{display:block;font-size:14px}
+.testimonial .who span{font-size:13px;color:var(--muted)}
+
+/* footer cta */
+.footcta{display:flex;align-items:center;gap:16px;background:var(--navy);color:#fff;border-radius:var(--radius);padding:22px 28px;margin:24px 0 48px}
+.footcta .txt{flex:1}
+.footcta b{font-size:16px}
+.footcta .small{color:#94a3b8;font-size:13px;margin-top:2px}
+
+@media (max-width:900px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .cols{grid-template-columns:1fr}
+  .topnote{display:none}
+  .howto .ht-grid{grid-template-columns:1fr;gap:12px}
+}
+@media (max-width:560px){
+  .kpis{grid-template-columns:1fr}
+  .cta-strip,.footcta{flex-direction:column;align-items:flex-start}
+  .topbar .wrap{height:auto;padding-top:10px;padding-bottom:10px;flex-wrap:wrap;justify-content:space-between}
+  .topbar .btn:not(.primary){display:none}
+  .topbar .pill{display:none}
+  .topbar .btn.primary{padding:8px 12px;font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="logo"><span class="ring"></span> Orbis</div>
+    <div class="topnote">Du ser rigtige dækningsdata for Aalborg Håndbold. Følg din egen virksomhed på 2 minutter.</div>
+    <span class="pill">🇩🇰 DA</span>
+    <a class="btn" href="index.html">Log på</a>
+    <a class="btn primary" href="index.html">Overvåg min virksomhed gratis</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- hero -->
+  <div class="hero">
+    <h1>Aalborg Håndbold</h1>
+    <div class="sub">Nyhedsovervågning for Aalborg Håndbold <span class="pill">🇩🇰 Danske medier</span> <span class="live"><span class="blink"></span>Opdateret for 14 min. siden</span></div>
+    <div class="lead">
+      <b>11 omtaler de sidste 7 dage</b> <span class="ctx">· 2 flere end ugen før · 38 omtaler de seneste 30 dage</span>
+    </div>
+  </div>
+
+  <!-- Sådan læser du siden -->
+  <div class="howto">
+    <div class="ht-head">Sådan læser du siden</div>
+    <div class="ht-grid">
+      <div class="ht-item">
+        <span class="ico">📊</span>
+        <div><b>Hvor mange skriver om jer</b><p>Antal artikler hvor Aalborg Håndbold er nævnt, dag for dag.</p></div>
+      </div>
+      <div class="ht-item">
+        <span class="ico">🙂</span>
+        <div><b>Hvordan er tonen</b><p>Hver artikel vurderes som positiv, neutral eller negativ ud fra sproget.</p></div>
+      </div>
+      <div class="ht-item">
+        <span class="ico">📣</span>
+        <div><b>Hvilke medier når længst</b><p>Visningstal viser hvilke omtaler flest danskere faktisk ser.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toggle">
+    <button class="on">7 dage</button><button>30 dage</button><button>3 måneder</button>
+  </div>
+
+  <div class="explain"><span class="i">i</span>Tallene herunder dækker de seneste 7 dage. Skift periode med knapperne ovenfor, så følger hele siden med.</div>
+
+  <!-- KPIs -->
+  <div class="kpis">
+    <div class="card kpi">
+      <div class="label">Omtaler</div>
+      <div class="num">11</div>
+      <div class="ctx"><span class="up">▲ 2</span> mod ugen før (9)</div>
+    </div>
+    <div class="card kpi">
+      <div class="label">Medier der dækker</div>
+      <div class="num">6</div>
+      <div class="ctx">TV 2 Sport, Nordjyske, Bold.dk m.fl.</div>
+    </div>
+    <div class="card kpi">
+      <div class="label">Er omtalen positiv?</div>
+      <div class="tonebar">
+        <i style="width:64%;background:var(--green)"></i><i style="width:27%;background:var(--amber)"></i><i style="width:9%;background:var(--red)"></i>
+      </div>
+      <div class="tonelegend">
+        <span><span class="dot g"></span>Positiv 64%</span>
+        <span><span class="dot a"></span>Neutral 27%</span>
+        <span><span class="dot r"></span>Negativ 9%</span>
+      </div>
+      <div class="ctx" style="margin-top:8px">7 af 11 artikler omtaler jer positivt.</div>
+    </div>
+    <div class="card kpi">
+      <div class="label">Største historie</div>
+      <div class="story">Pokalsejr sender Aalborg Håndbold i Final 4 efter drama mod GOG</div>
+      <div class="story-meta"><span class="dot g"></span>Positiv · TV 2 Sport · 1 d. siden</div>
+    </div>
+  </div>
+
+  <!-- CTA strip -->
+  <div class="cta-strip">
+    <div class="txt">
+      <b>Vil du se dette for din egen virksomhed?</b>
+      <div class="small">2 min · Intet kreditkort · 30 dages historik med det samme</div>
+    </div>
+    <a class="btn primary" href="index.html">Overvåg min virksomhed gratis</a>
+  </div>
+
+  <!-- chart -->
+  <div class="panel">
+    <h2>Hvor meget bliver der skrevet om Aalborg Håndbold?</h2>
+    <div class="panelsub">Daglige omtaler i danske medier, seneste 7 dage. Den stiplede linje viser gennemsnittet for ligaens klubber.</div>
+    <div class="chart">
+      <div class="avg"><span>Liga-gennemsnit</span></div>
+      <div class="bar"><span class="v">2</span><i style="height:44%"></i></div>
+      <div class="bar"><span class="v">1</span><i style="height:22%"></i></div>
+      <div class="bar zero"><span class="v">0</span><i></i></div>
+      <div class="bar"><span class="v">3</span><i style="height:66%"></i></div>
+      <div class="bar"><span class="v">1</span><i style="height:22%"></i></div>
+      <div class="bar"><span class="v">2</span><i style="height:44%"></i></div>
+      <div class="bar"><span class="v">2</span><i style="height:44%"></i></div>
+    </div>
+    <div class="xlab">
+      <span>4/6</span><span>5/6</span><span>6/6</span><span>7/6</span><span>8/6</span><span>9/6</span><span>10/6</span>
+    </div>
+    <div class="filters">
+      <span class="fpill on">Alle</span>
+      <span class="fpill"><span class="dot g"></span>Positiv</span>
+      <span class="fpill"><span class="dot a"></span>Neutral</span>
+      <span class="fpill"><span class="dot r"></span>Negativ</span>
+    </div>
+    <div class="explain"><span class="i">i</span>Toppen 7/6 er pokalkampen mod GOG. Kampdage giver typisk 2-3 ekstra omtaler dagen efter. Brug knapperne til kun at se fx de positive artikler.</div>
+  </div>
+
+  <div class="cols">
+    <div>
+      <!-- quotes -->
+      <div class="panel" style="margin-top:0">
+        <span class="exlabel badge-ex">Eksempel · frigives efter verificering</span>
+        <h2>Citater I må genbruge (§22)</h2>
+        <div class="panelsub">Uddrag fra artikler hvor Aalborg Håndbold er nævnt. Lovlige at dele med korrekt kildeangivelse jf. ophavsretslovens §22.</div>
+        <div class="explain"><span class="i">i</span>Det betyder: I må bruge disse uddrag i jeres egne kanaler, fx på storskærmen i hallen eller på sociale medier, når kilden krediteres.</div>
+        <div class="quote"><div class="qt">Klubben leverede en af sæsonens bedste præstationer, og særligt forsvaret blev fremhævet som afgørende for sejren foran et udsolgt hjemmepublikum.</div><div class="src">TV 2 Sport · Pokaldrama endte i nordjysk jubel</div></div>
+        <div class="quote"><div class="qt">"Vi har fundet præcis den profil, vi manglede," siger sportschefen om klubbens nyeste tilgang, der tiltrådte på en toårig aftale.</div><div class="src">Nordjyske · Klubben henter forstærkning før slutspillet</div></div>
+        <div class="quote" style="border-left-color:var(--amber)"><div class="qt">Holdet nævnes blandt favoritterne til medaljer, men eksperterne peger på et tæt program som den største udfordring i slutspurten.</div><div class="src">Bold.dk · Slutspillet: Sådan ser favoritfeltet ud</div></div>
+        <div class="gate">
+          <div class="lock">🔒</div>
+          <h3>Verificér ejerskab af Aalborg Håndbold</h3>
+          <p>Ophavsretslovens §22 giver jer ret til at citere og genbruge uddrag fra artikler hvor klubben er nævnt, men kun som verificeret ejer. Verificering sikrer at citater kun frigives til rette vedkommende.</p>
+          <a class="btn dark" href="index.html">Opret konto for at verificere</a>
+          <a class="btn" href="index.html">Se eksempel på hvad du får</a>
+          <p style="margin-top:8px">Gratis · Ingen kontrakt</p>
+        </div>
+      </div>
+
+      <!-- articles -->
+      <div class="panel">
+        <h2>Seneste omtaler</h2>
+        <div class="panelsub">De nyeste artikler hvor Aalborg Håndbold er nævnt, nyeste først. Visningstal er mediets anslåede læsertal for artiklen.</div>
+        <div class="art">
+          <h3>Pokalsejr sender Aalborg Håndbold i Final 4 efter drama mod GOG</h3>
+          <div class="meta"><span class="tone pos"><span class="dot g"></span>Positiv</span> TV 2 Sport · 1 d. siden · 8.400 visninger</div>
+        </div>
+        <div class="art">
+          <h3>Aalborg Håndbold henter norsk playmaker på toårig kontrakt</h3>
+          <div class="meta"><span class="tone pos"><span class="dot g"></span>Positiv</span> Nordjyske · 2 d. siden · 3.100 visninger</div>
+        </div>
+        <div class="art">
+          <h3>Kampreferat: Tung eftermiddag i Skjern kostede vigtige point</h3>
+          <div class="meta"><span class="tone neg"><span class="dot r"></span>Negativ</span> Bold.dk · 4 d. siden · 1.900 visninger</div>
+        </div>
+        <div class="blurbox">
+          <div class="fake">
+            <div class="art"><h3>Stortalent forlænger: "Aalborg er det rigtige sted for min udvikling"</h3><div class="meta">Nordjyske · 5 d. siden</div></div>
+            <div class="art"><h3>Slutspillet: Sådan ser favoritfeltet ud før de afgørende runder</h3><div class="meta">Bold.dk · 6 d. siden</div></div>
+            <div class="art"><h3>Udsolgt igen: Hjemmebanen er blevet en fæstning i denne sæson</h3><div class="meta">TV 2 Nord · 6 d. siden</div></div>
+          </div>
+          <div class="overlay">
+            <b>+8 flere omtaler</b>
+            <p>Følger du klubben, fanger vi al ny omtale i realtid, og du får besked med det samme.</p>
+            <a class="btn primary" href="index.html">Overvåg min virksomhed gratis</a>
+            <span style="font-size:12px;color:var(--muted)">Gratis · Intet kreditkort kræves</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- compare (secondary) -->
+    <div class="panel compare" style="margin-top:0">
+      <h2 style="font-size:15.5px">Sammenlign aktører</h2>
+      <div class="panelsub">Hvem bliver Aalborg Håndbold nævnt sammen med?</div>
+      <div class="explain"><span class="i">i</span>Når en artikel nævner både jer og en anden klub, tæller den som en fælles omtale.</div>
+      <div class="row"><b>GOG</b><span class="sub"><span class="n">4 fælles omtaler</span><a href="index.html">Se fælles →</a></span></div>
+      <div class="row"><b>Skjern Håndbold</b><span class="sub"><span class="n">3 fælles omtaler</span><a href="index.html">Se fælles →</a></span></div>
+      <div class="row"><b>Fredericia Håndbold</b><span class="sub"><span class="n">2 fælles omtaler</span><a href="index.html">Se fælles →</a></span></div>
+    </div>
+  </div>
+
+  <!-- testimonial -->
+  <div class="testimonial">
+    <div class="mark">"</div>
+    <blockquote>Det er virkelig rart at have alle nyheder samlet på ét sted. Vi har en skærm på kontoret, hvor de seneste nyheder for os ruller over hele tiden, så vi alle ved, hvad der rører sig.</blockquote>
+    <div class="who">
+      <span class="ava">MS</span>
+      <div><b>Martin Stigaard Skammelsen</b><span>Marketing- og oplevelseschef, Aalborg Håndbold</span></div>
+    </div>
+  </div>
+
+  <!-- footer cta -->
+  <div class="footcta">
+    <div class="txt">
+      <b>Følg din egen virksomhed</b>
+      <div class="small">30 dages historik · Ingen kontrakt · Klar på 2 minutter</div>
+    </div>
+    <a class="btn primary" href="index.html">Overvåg gratis</a>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -90,6 +90,19 @@ body{
 .delta{font-weight:600;font-size:12.5px}
 .delta.up{color:var(--green)}.delta.down{color:var(--red)}
 
+/* ===== Info-tooltip (forklaringstekst) ===== */
+.info{display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;
+  background:#e8edf5;color:var(--muted);font-size:10px;font-weight:700;font-style:normal;
+  cursor:help;position:relative;vertical-align:1px;margin-left:5px;outline:none}
+.info::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;
+  transform:translateX(-50%);background:var(--navy);color:#e2e8f0;font-size:12px;font-weight:400;
+  line-height:1.5;padding:9px 12px;border-radius:9px;width:max-content;max-width:240px;
+  opacity:0;pointer-events:none;transition:.12s;z-index:90;text-align:left;white-space:normal}
+.info:hover::after,.info:focus::after{opacity:1}
+.kpi{position:relative}
+.kpi.clickable{cursor:pointer;transition:.15s}
+.kpi.clickable:hover{box-shadow:var(--shadow-lg);transform:translateY(-1px)}
+
 /* ===== Onboarding strip ===== */
 .onboard{display:flex;gap:18px;align-items:center;background:linear-gradient(120deg,#0b1733,#13284f);
   color:#fff;border-radius:var(--radius);padding:20px 24px;margin-bottom:8px;box-shadow:var(--shadow)}

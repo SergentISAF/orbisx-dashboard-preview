@@ -1,0 +1,114 @@
+<!doctype html><html lang="da"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Org-aktivitet | Orbis (internt)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .tool { max-width:760px; }
+  .tool textarea { width:100%; min-height:150px; font:13.5px/1.6 Inter,sans-serif; border:1px solid var(--line);
+    border-radius:12px; padding:12px 14px; resize:vertical; outline:none; }
+  .tool textarea:focus { border-color:var(--blue); }
+  .res { display:flex; flex-direction:column; gap:8px; margin-top:16px; }
+  .res-row { display:flex; align-items:center; gap:12px; background:var(--card); border:1px solid var(--line);
+    border-radius:12px; padding:11px 15px; box-shadow:var(--shadow); }
+  .res-row b { flex:1; font-size:14px; }
+  .res-row .n { font-weight:700; color:var(--blue); white-space:nowrap; }
+  .res-row.warn .n { color:var(--amber); }
+  .res-row.zero { opacity:.55; }
+  .progress { font-size:13px; color:var(--muted); margin-top:10px; min-height:18px; }
+  .back { display:inline-flex; gap:6px; color:var(--blue); font-weight:600; font-size:13px;
+    text-decoration:none; margin-bottom:10px; }
+</style></head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand"><span class="ring"></span><b>Orbis</b></div>
+  <nav class="nav">
+    <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>Overblik</a>
+    <a href="insights.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Analyse</a>
+    <a href="comm.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Rapporter</a>
+    <a href="news.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>Nyheder</a>
+  </nav>
+  <div class="side-foot"><div class="lang">🇩🇰 Dansk</div><div class="me"><span class="av">D</span>internt værktøj</div></div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="crumb">Internt / <b>Org-aktivitet</b></div>
+    <div class="bell" style="margin-left:auto"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg></div>
+  </div>
+
+  <div class="content tool">
+    <div class="h-eyebrow">Internt værktøj · outreach</div>
+    <h1 class="page-title">Hvem er der mest gang i?</h1>
+    <p class="page-sub">Indsæt organisationer (én pr. linje) og se hvor meget mediedækning hver har. Mest aktivitet øverst, så du ved hvem det giver mening at kontakte nu. Kræver login (knappen øverst).</p>
+
+    <div class="card mt16" style="padding:18px 20px">
+      <textarea id="orgList">Aalborg Håndbold
+GOG
+Bjerringbro-Silkeborg
+KIF Kolding
+Mors-Thy Håndbold
+Odense Håndbold
+Brøndby IF
+FC Midtjylland
+AGF
+Randers FC
+Silkeborg IF
+Lyngby Boldklub</textarea>
+      <div style="display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap">
+        <button class="btn btn-primary" id="runBtn">Tjek aktivitet</button>
+        <span class="progress" id="progress"></span>
+      </div>
+    </div>
+
+    <div class="res" id="results"></div>
+    <p class="muted mt10" style="font-size:12.5px">⚠ betyder at dækningen er så stor at optællingen ramte tidsgrænsen, eller at navnet skal være mere præcist. Tallene er artikler der matcher navnet som søgeord.</p>
+  </div>
+</div>
+
+<script src="js/config.local.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/api.js"></script>
+<script src="js/live.js"></script>
+<script>
+  (function () {
+    const btn = document.getElementById('runBtn');
+    const progress = document.getElementById('progress');
+    const results = document.getElementById('results');
+
+    function render(rows) {
+      // ⚠-rækker øverst (timeout = typisk meget stor dækning), derefter efter antal
+      rows.sort((a, b) => (b.warn - a.warn) || (b.n - a.n));
+      results.innerHTML = rows.map(r => `
+        <div class="res-row ${r.warn ? 'warn' : ''} ${!r.warn && r.n === 0 ? 'zero' : ''}">
+          <b>${r.org.replace(/</g, '&lt;')}</b>
+          <span class="n">${r.warn ? '⚠ meget stor / tjek manuelt' : `${r.n} artikler`}</span>
+        </div>`).join('');
+    }
+
+    btn.addEventListener('click', async () => {
+      if (!window.OrbisAuth.isLoggedIn() || !window.OrbisAuth.hasConfig()) {
+        progress.textContent = 'Log ind først (knappen øverst til højre).';
+        return;
+      }
+      const orgs = document.getElementById('orgList').value.split('\n').map(s => s.trim()).filter(Boolean);
+      btn.disabled = true;
+      const rows = [];
+      for (let i = 0; i < orgs.length; i++) {
+        progress.textContent = `Tjekker ${i + 1} af ${orgs.length}: ${orgs[i]}…`;
+        try {
+          const data = await window.OrbisAPI.searchArticles(orgs[i], 'dk', 1);
+          rows.push({ org: orgs[i], n: data.total_cluster_articles ?? (data.results || []).length, warn: false });
+        } catch {
+          rows.push({ org: orgs[i], n: 0, warn: true }); // 500 = ofte 10s-timeout pga. stor dækning
+        }
+        render(rows);
+      }
+      progress.textContent = `Færdig: ${orgs.length} organisationer tjekket.`;
+      btn.disabled = false;
+    });
+  })();
+</script>
+</body></html>
