@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OrbisX — samlet demo-pakke</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root { --navy:#020617; --blue:#2563eb; --bg:#f6f7fb; --card:#fff; --muted:#64748b; --line:#e2e8f0; --radius:16px; }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(--navy); padding:48px 24px 80px; }
+  main { max-width:860px; margin:0 auto; }
+  .brand { font-weight:800; font-size:20px; margin-bottom:40px; }
+  .brand span { color:var(--blue); }
+  h1 { font-size:clamp(28px,5vw,44px); font-weight:800; letter-spacing:-0.02em; line-height:1.1; }
+  .lead { margin-top:14px; font-size:17px; color:var(--muted); max-width:60ch; line-height:1.6; }
+  h2 { font-size:14px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--blue); margin:44px 0 14px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px; }
+  a.card { display:block; background:var(--card); border-radius:var(--radius); padding:20px 22px; text-decoration:none;
+           color:inherit; box-shadow:0 1px 3px rgba(2,6,23,.08); transition:box-shadow .15s; border:1px solid transparent; }
+  a.card:hover { box-shadow:0 6px 20px rgba(2,6,23,.14); border-color:#dbeafe; }
+  .card .step { display:inline-block; background:#eef2ff; color:var(--blue); font-weight:800; font-size:12px;
+                border-radius:999px; padding:3px 10px; margin-bottom:10px; }
+  .card strong { display:block; font-size:16px; margin-bottom:4px; }
+  .card p { font-size:13.5px; color:var(--muted); line-height:1.5; }
+  .note { margin-top:14px; font-size:13.5px; color:var(--muted); background:var(--card); border-radius:12px;
+          padding:12px 16px; line-height:1.55; border-left:3px solid var(--blue); }
+  footer { margin-top:56px; font-size:13px; color:#94a3b8; }
+</style>
+</head>
+<body>
+<main>
+  <div class="brand">Orbis<span>X</span> · demo-pakke</div>
+  <h1>Hele kunderejsen, samlet ét sted.</h1>
+  <p class="lead">Fra det øjeblik et prospekt hører om os, til de bruger dashboardet hver dag.
+  Klik rejsen igennem i rækkefølge, eller hop direkte til det du vil vise.</p>
+
+  <h2>1 · Prospektets rejse (marketing-wedgen)</h2>
+  <div class="cards">
+    <a class="card" href="https://sergentisaf.github.io/orbisx-landing-preview/">
+      <span class="step">Trin 1</span><strong>Landing-funnel</strong>
+      <p>Minimal forside: "Hvad skriver medierne om jer?" Søg en organisation frem og se den dynamiske landing page. Prøv fx Aalborg Håndbold.</p></a>
+    <a class="card" href="demo.html">
+      <span class="step">Trin 2</span><strong>Forbedret demo-side</strong>
+      <p>Orgens live mediebillede (DSV som case), bragt på linje med designprincipperne. Knappen "Vis ændringer" forklarer hvert fix mod den nuværende side.</p></a>
+  </div>
+
+  <h2>2 · Kundens dashboard (redesignet)</h2>
+  <div class="cards">
+    <a class="card" href="index.html"><span class="step">Skærm 1</span><strong>Overblik</strong>
+      <p>Dine emner, dagens tal og mest omtalte historie. Koblet på rigtige data efter login.</p></a>
+    <a class="card" href="insights.html"><span class="step">Skærm 2</span><strong>Analyse</strong>
+      <p>Hvor meget bliver der skrevet, hvilke medier dækker, og hvordan er tonen.</p></a>
+    <a class="card" href="comm.html"><span class="step">Skærm 3</span><strong>Rapporter</strong>
+      <p>Få dækningen sendt til din indbakke: tre trin og et live preview af mailen.</p></a>
+    <a class="card" href="news.html"><span class="step">Skærm 4</span><strong>Nyheder</strong>
+      <p>Det samlede mediebillede lige nu, med antal medier og tone pr. historie.</p></a>
+  </div>
+  <p class="note">Dashboardet kører som udgangspunkt på <b>demo-data</b>. Med "Log ind" øverst til højre
+  hentes rigtige data fra v2-API'et (Overblik er koblet på som første skærm) — blokke der stadig viser
+  eksempeltal er mærket "demo-tal", så ingen er i tvivl.</p>
+
+  <h2>3 · Varianter og dokumentation</h2>
+  <div class="cards">
+    <a class="card" href="preview/"><strong>Design-varianter</strong>
+      <p>Alle aktive eksperiment-branches med hver sit klikbare preview.</p></a>
+    <a class="card" href="https://github.com/SergentISAF/orbisx-dashboard-preview/blob/main/DESIGN.md"><strong>DESIGN.md</strong>
+      <p>Hvad og hvorfor: filosofien, hver skærm komponent for komponent, designsystemet.</p></a>
+    <a class="card" href="https://github.com/SergentISAF/orbisx-dashboard-preview/blob/main/INTEGRATION.md"><strong>INTEGRATION.md</strong>
+      <p>Hvordan: login-flow, alle v2-endpoints og mønstret for at koble de næste skærme på.</p></a>
+    <a class="card" href="https://github.com/SergentISAF/orbisx-dashboard-preview/blob/main/GUARDRAILS.md"><strong>GUARDRAILS.md</strong>
+      <p>Spilleregler for AI-assisteret implementering: kodekvalitet, datasikkerhed, proces.</p></a>
+  </div>
+
+  <footer>Spørgsmål: Dan Holmstad · danholmstad@gmail.com / Holmstad@orbisx.ai</footer>
+</main>
+</body>
+</html>
